@@ -12,5 +12,19 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "8608c3c1-8c10-4f92-8b0a-b5223a0513c9",
+    "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
+    "containerId": "",
+    "name": "findById(products)",
+    "url": "{{localhost}}/products/2",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2023-01-14T03:54:26.914Z",
+    "modified": "2023-01-14T03:54:53.994Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]
