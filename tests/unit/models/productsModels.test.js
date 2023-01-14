@@ -16,7 +16,7 @@ describe('PRODUCTS MODEL', function () {
     expect(result).to.be.deep.equal(productsList);
   })
   it('se é possível buscar um produto por id', async function () {
-    sinon.stub(connection, 'execute').resolves([productsList[0]]);
+    sinon.stub(connection, 'execute').resolves([[productsList[0]]]);
     const result = await productsModel.findById(1);
     expect(result).to.be.deep.equal(productsList[0])
   })
