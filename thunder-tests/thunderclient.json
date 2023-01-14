@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "828b1576-2198-4bbc-981a-ebe77b1f65ec",
+    "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
+    "containerId": "",
+    "name": "findAll(products)",
+    "url": "{{localhost}}/products",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2023-01-14T03:00:17.389Z",
+    "modified": "2023-01-14T03:04:16.613Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  }
+]
