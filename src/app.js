@@ -1,19 +1,18 @@
 const express = require('express');
-const connection = require('./models/connection');
+const { productsController } = require('./controllers');
 
 const app = express();
+
+app.use(express.json());
 
 // não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
 
-app.get('/products', async (_req, res) => {
-  const [result] = await connection.execute(
-    'SELECT * FROM StoreManager.products;',
-  );
-  res.status(200).json(result);
-});
+app.get('/products', productsController.findAll);
+
+app.get('/products/:id', productsController.findById);
 
 // não remova essa exportação, é para o avaliador funcionar
 // você pode registrar suas rotas normalmente, como o exemplo acima

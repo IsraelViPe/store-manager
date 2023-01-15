@@ -11,7 +11,8 @@ const findById = async (req, res) => {
   const response = await service.productsService.findById(id);
 
   if (response.type) {
-    return res.status(404).json(response.message);
+    console.log('entrei aqui');
+    return res.status(404).json({ message: response.message });
   }
 
   return res.status(200).json(response.message);

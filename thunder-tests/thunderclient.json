@@ -18,11 +18,11 @@
     "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
     "containerId": "",
     "name": "findById(products)",
-    "url": "{{localhost}}/products/2",
+    "url": "{{localhost}}/products/9999",
     "method": "GET",
     "sortNum": 30000,
     "created": "2023-01-14T03:54:26.914Z",
-    "modified": "2023-01-14T03:54:53.994Z",
+    "modified": "2023-01-15T16:20:34.199Z",
     "headers": [],
     "params": [],
     "tests": []

@@ -45,7 +45,7 @@ describe('PRODUCTS CONTROLLER', function () {
       await productsController.findById(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
-      expect(res.json).to.have.been.calledWith("Product not found");
+      expect(res.json).to.have.been.calledWith({ message: "Product not found"});
     });
     it('deve retornar status 200 e o produto no corpo da mensagem caso o produto exista', async function () {
         const res = {};
