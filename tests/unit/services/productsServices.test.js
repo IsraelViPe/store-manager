@@ -3,10 +3,10 @@ const { expect } = require("chai");
 
 const { productsModel } = require('../../../src/models');
 const { productsService } = require('../../../src/services');
-const { productsList } = require('./productsServices.mocks');
+const { productsList, correctProductInsert } = require('./productsServices.mocks');
 
 describe('PRODUCTS SERVICE', function () {
-  describe('Testando método findAll', function () {
+  describe('Testando operação findAll (listar todos produtos)', function () {
     it('se lista todos os produtos corretamente', async function () {
       sinon.stub(productsModel, 'findAll').resolves(productsList);
       const result = await productsService.findAll();
@@ -14,7 +14,7 @@ describe('PRODUCTS SERVICE', function () {
       sinon.restore();
     })
   })
-  describe('Testando busca por id', function () {
+  describe('Testando operação  findById (listar por id)', function () {
     afterEach(function () {
       sinon.restore();
     })
@@ -32,5 +32,15 @@ describe('PRODUCTS SERVICE', function () {
 
       expect(result.message).to.deep.equal(productsList[0]);
     });
+  })
+  describe.only('Testando operação insert (inserir um novo produto)', function () {
+    it('é possível cadastrar um produto com sucesso', async function () {
+      sinon.stub(productsModel, 'insert').resolves(correctProductInsert);
+
+      const result = await productsService.insert({ name: correctProductInsert.name })
+
+      expect(result.message).to.be.deep.equal(correctProductInsert);
+    });
+
   })
 })

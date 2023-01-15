@@ -13,7 +13,7 @@ describe('PRODUCTS CONTROLLER', function () {
   afterEach(function () {
     sinon.restore();
   });
-  describe('Rota /products', function () {
+  describe('Rota GET /products (lista todos os produtos)', function () {
     it('Se lista todos os produtos com sucesso retornando stautus 200', async function () {
       const res = {};
       const req = {};
@@ -31,7 +31,7 @@ describe('PRODUCTS CONTROLLER', function () {
       expect(res.json).to.have.been.calledWith(productsList);
     });
   });
-  describe('Rota /products/:id', function () {
+  describe('Rota GET /products/:id (busca por id)', function () {
     it('deve retornar um erro "Product not fount" ao buscar um produto inexistente', async function () {
       const res = {};
       const req = { params: { id: 9999 }};
@@ -63,5 +63,16 @@ describe('PRODUCTS CONTROLLER', function () {
         expect(res.status).to.have.been.calledWith(200);
         expect(res.json).to.have.been.calledWith(productsList[0]);
     });
+  })
+  describe('Rota POST /products (insere um novo produto)', function () {
+    it('é possível cadastrar um produto com sucesso', async function () {
+
+    });
+     it("não é possível realizar operações em um produto sem o campo name", async function () {
+
+     });
+     it("não é possível realizar operações em um produto com o campo name menor que 5 caracteres", async function () {
+
+     });
   })
 });

@@ -13,6 +13,12 @@ const productsList = [
   },
 ];
 
+const correctProductInsert = {
+  id: 4,
+  name: "Liquidificador",
+}
+
 module.exports = {
   productsList,
+  correctProductInsert
 };
