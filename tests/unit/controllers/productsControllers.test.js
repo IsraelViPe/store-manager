@@ -68,11 +68,6 @@ describe('PRODUCTS CONTROLLER', function () {
     it('é possível cadastrar um produto com sucesso', async function () {
 
     });
-     it("não é possível realizar operações em um produto sem o campo name", async function () {
 
-     });
-     it("não é possível realizar operações em um produto com o campo name menor que 5 caracteres", async function () {
-
-     });
   })
 });

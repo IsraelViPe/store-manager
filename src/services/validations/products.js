@@ -1,8 +1,4 @@
-const Joi = require('joi');
-
-const addProductSchema = Joi.object({
-  name: Joi.string().min(5).required(),
-});
+const { addProductSchema } = require('./schema');
 
 const validationNewProduct = (productInfo) => {
   const { error } = addProductSchema.validate(productInfo);
