@@ -1,7 +1,7 @@
 const sinon = require("sinon");
 const { expect } = require("chai");
 
-const { salesModel } = require("../../../src/models");
+const { salesModel, salesProductsModel } = require("../../../src/models");
 const { salesServices } = require("../../../src/services");
 const { correctSaleInsert, insertSaleResponse } = require("./servicesMocks");
 
@@ -26,6 +26,7 @@ describe('SALES SERVICE', function () {
           .resolves(1)
           .onSecondCall()
           .resolves(2)
+        sinon.stub(salesProductsModel, 'findById').resolves(correctSaleInsert);
 
         const result = await salesServices.createSale(correctSaleInsert);
 
