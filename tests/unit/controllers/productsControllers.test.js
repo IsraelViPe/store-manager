@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const { productsService } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers');
-const { productsList } = require('./productsController.mock');
+const { productsList, newProduct } = require('./productsController.mock');
 
 describe('PRODUCTS CONTROLLER', function () {
   afterEach(function () {
@@ -64,10 +64,55 @@ describe('PRODUCTS CONTROLLER', function () {
         expect(res.json).to.have.been.calledWith(productsList[0]);
     });
   })
-  describe('Rota POST /products (insere um novo produto)', function () {
+  describe.only('Rota POST /products (insere um novo produto)', function () {
     it('é possível cadastrar um produto com sucesso', async function () {
+      const res = {};
+      const req = { body: { name: 'Liquidificador' } };
 
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, "insert")
+        .resolves({ type: null, message: newProduct });
+
+      await productsController.insert(req, res);
+
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(newProduct);
     });
+    it('falha ao tentar cadastrar produto sem campo name', async function () {
+       const res = {};
+       const req = { body: { modelo: "modeloX" } };
+
+       res.status = sinon.stub().returns(res);
+       res.json = sinon.stub().returns();
+       sinon
+         .stub(productsService, "insert")
+         .resolves({ type: "BAD_REQUEST", message: '"name" is required"' });
+
+       await productsController.insert(req, res);
+
+       expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ message: '"name" is required"' });
+    })
+    it('falha ao tentar cadastrar produto com name inferior a 5 caracteres', async function () {
+      const res = {};
+      const req = { body: { name: "A" } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, "insert").resolves({
+        type: "UNPROCESSABLE_ENTITY",
+        message: '"name" length must be at least 5 characters long'
+      });
+
+      await productsController.insert(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({
+        message: '"name" length must be at least 5 characters long'
+      });
+    })
 
   })
 });

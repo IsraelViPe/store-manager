@@ -2,8 +2,9 @@ const { addProductSchema } = require('./schema');
 
 const validationNewProduct = (productInfo) => {
   const { error } = addProductSchema.validate(productInfo);
-
-  if (error) return { type: 'INVALID_VALUE', message: error.message };
+  const joiTypeError = error.details[0].type;
+  const msgTypeError = joiTypeError === 'any.required' ? 'BAD_REQUEST' : 'UNPROCESSABLE_ENTITY';
+  if (error) return { type: msgTypeError, message: error.message };
 
   return { type: null, message: '' };
 };

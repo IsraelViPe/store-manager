@@ -13,6 +13,12 @@ const productsList = [
   },
 ];
 
+const newProduct = {
+  id: 4,
+  name: "Liquidificador",
+};
+
 module.exports = {
   productsList,
+  newProduct
 };

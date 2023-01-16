@@ -33,7 +33,7 @@ describe('PRODUCTS SERVICE', function () {
       expect(result.message).to.deep.equal(productsList[0]);
     });
   })
-  describe.only('Testando operação insert (inserir um novo produto)', function () {
+  describe('Testando operação insert (inserir um novo produto)', function () {
     it('é possível cadastrar um produto com sucesso', async function () {
       sinon.stub(productsModel, 'insert').resolves(correctProductInsert);
 
@@ -44,30 +44,12 @@ describe('PRODUCTS SERVICE', function () {
     it("não é possível realizar operações em um produto sem o campo name", async function () {
       const result = await productsService.insert({ modelo: "modeloX" });
 
-      expect(result.message).to.be.deep.equal({
-        message: '"name" is required',
-      });
+      expect(result.message).to.be.deep.equal('"name" is required');
     });
     it("não é possível realizar operações em um produto com o campo name menor que 5 caracteres", async function () {
       const result = await productsService.insert({ name: "x" });
 
-      expect(result.message).to.be.deep.equal({
-        message: '"name" length must be at least 5 characters long',
-      });
-    });
-    it("não é possível realizar operações em um produto sem o campo name", async function () {
-      const result = await productsService.insert({ modelo: "modeloX" });
-
-      expect(result.message).to.be.deep.equal({
-        message: '"name" is required',
-      });
-    });
-    it("não é possível realizar operações em um produto com o campo name menor que 5 caracteres", async function () {
-      const result = await productsService.insert({ name: "x" });
-
-      expect(result.message).to.be.deep.equal({
-        message: '"name" length must be at least 5 characters long',
-      });
+      expect(result.message).to.be.deep.equal('"name" length must be at least 5 characters long');
     });
   })
 })
