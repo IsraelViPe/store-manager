@@ -21,7 +21,6 @@ const findById = async (productId) => {
 };
 
 const insert = async (productInfo) => {
-   console.log('entrei');
   const error = validationNewProduct(productInfo);
   if (error.type) return error;
 

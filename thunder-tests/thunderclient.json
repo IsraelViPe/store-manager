@@ -26,5 +26,24 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "27714377-a28b-419e-8eab-1e8bcba82abb",
+    "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
+    "containerId": "",
+    "name": "insert(products)",
+    "url": "{{localhost}}/products",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2023-01-16T14:46:25.907Z",
+    "modified": "2023-01-16T14:54:16.833Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Liquidificador\"\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]
