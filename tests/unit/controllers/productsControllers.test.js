@@ -64,7 +64,7 @@ describe('PRODUCTS CONTROLLER', function () {
         expect(res.json).to.have.been.calledWith(productsList[0]);
     });
   })
-  describe.only('Rota POST /products (insere um novo produto)', function () {
+  describe('Rota POST /products (insere um novo produto)', function () {
     it('é possível cadastrar um produto com sucesso', async function () {
       const res = {};
       const req = { body: { name: 'Liquidificador' } };
