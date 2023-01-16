@@ -2,6 +2,7 @@ const express = require('express');
 const { productsController } = require('./controllers');
 
 const app = express();
+const connection = require('./models/connection');
 
 app.use(express.json());
 

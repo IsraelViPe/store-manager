@@ -45,5 +45,24 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "53971ea3-6c64-4265-8764-381e26245225",
+    "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
+    "containerId": "",
+    "name": "sales(cadastrar uma nova venda)",
+    "url": "{{localhost}}/sales",
+    "method": "POST",
+    "sortNum": 50000,
+    "created": "2023-01-16T20:39:49.188Z",
+    "modified": "2023-01-16T20:44:24.541Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 1\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]",
+      "form": []
+    },
+    "tests": []
   }
 ]
