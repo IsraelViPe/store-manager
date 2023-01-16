@@ -3,7 +3,7 @@ const { expect } = require("chai");
 
 const { productsModel } = require('../../../src/models');
 const { productsService } = require('../../../src/services');
-const { productsList, correctProductInsert } = require('./productsServices.mocks');
+const { productsList, correctProductInsert } = require('./servicesMocks');
 
 describe('PRODUCTS SERVICE', function () {
   describe('Testando operação findAll (listar todos produtos)', function () {

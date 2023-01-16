@@ -4,7 +4,7 @@ const connection = require('../../../src/models/connection');
 
 const { productsModel } = require('../../../src/models');
 
-const { productsList } = require('./mocks');
+const { productsList } = require('./productsMocks');
 
 describe('PRODUCTS MODEL', function () {
   afterEach(function () {

@@ -13,12 +13,18 @@ const productsList = [
   },
 ];
 
-const correctProductInsert = {
-  id: 4,
-  name: "Liquidificador",
-}
+correctBodyInsertSale = [
+  {
+    productId: 1,
+    quantity: 1,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
 
 module.exports = {
   productsList,
-  correctProductInsert
+  correctBodyInsertSale
 };
