@@ -1,7 +1,21 @@
 const camelize = require('camelize');
 const model = require('../models');
 
-const { saleIsValid } = require('./validations/sales.validation');
+const { saleIsValid, validateIdSale } = require('./validations/sales.validation');
+
+const findAll = async () => {
+  const salesList = await model.salesModel.findAll();
+  return { type: null, message: salesList };
+};
+
+const findById = async (saleId) => {
+  const error = await validateIdSale(saleId);
+  if (error.type) return error;
+
+  const sale = await model.salesModel.findById(saleId);
+
+  return { type: null, message: sale };
+};
 
 const createSale = async (saleInfo) => {
   const error = await saleIsValid(saleInfo);
@@ -15,8 +29,6 @@ const createSale = async (saleInfo) => {
 
   const itemsSold = saleInfo;
 
-  console.log(itemsSold, 'item sold');
-
   const response = { id: saleId, itemsSold };
 
   return { type: null, message: camelize(response) };
@@ -24,4 +36,6 @@ const createSale = async (saleInfo) => {
 
 module.exports = {
   createSale,
+  findAll,
+  findById,
 };

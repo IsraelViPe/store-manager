@@ -1,4 +1,4 @@
-const { productsModel } = require('../../models');
+const { productsModel, salesModel } = require('../../models');
 
 const saleIsValid = async (saleInfo) => {
   const allProduct = await productsModel.findAll();
@@ -13,6 +13,21 @@ const saleIsValid = async (saleInfo) => {
   return { type: null, message: '' };
 };
 
+const doesSalesExist = async (saleId) => {
+  const sale = await salesModel.findById(saleId);
+  if (sale) return true;
+  return false;
+};
+
+const validateIdSale = async (saleId) => {
+  if (!(await doesSalesExist(saleId))) {
+    return { type: 'NOT_FOUND', message: 'Sale not found' };
+  }
+  return { type: null, message: '' };
+  };
+
 module.exports = {
   saleIsValid,
+  validateIdSale,
+
 };

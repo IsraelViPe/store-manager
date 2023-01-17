@@ -18,7 +18,7 @@ describe('SALES MODEL', function () {
       expect(result).to.equal(3);
     });
   });
-  describe.only('findAll e findById', function () {
+  describe('findAll e findById', function () {
     it('se é possível listar todas as vendas', async function () {
       sinon.stub(connection, 'execute').resolves([salesList])
 
