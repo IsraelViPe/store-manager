@@ -2,8 +2,8 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 const connection = require('../../../src/models/connection');
 
-const { salesModel, productsModel } = require('../../../src/models');
-const { correctInsertSale, correctBodyInsertSale } = require('./productsMocks');
+const { salesModel } = require('../../../src/models');
+const {  correctBodyInsertSale } = require('./modelMocks');
 
 describe('SALES MODEL', function () {
   afterEach(function () {

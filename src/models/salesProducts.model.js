@@ -1,21 +1,24 @@
+const snakeize = require('snakeize');
 const connection = require('./connection');
 
-const insert = async (saleId, itemSold) => {
-  const columns = Object.keys(itemSold).join(', ');
-  const placeholders = Object.keys(itemSold)
+const insert = async (infoSold) => {
+  const columns = Object.keys(snakeize(infoSold)).join(', ');
+
+  const placeholders = Object.keys(infoSold)
     .map((_key) => '?')
     .join(', ');
-  const result = connection.execute(`
-  INSERT INTO (${columns}) VALUE (${placeholders})`,
-    [saleId, ...Object.values(itemSold)]);
 
-  console.log(result);
+  const [{ insertId }] = await connection.execute(`
+  INSERT INTO (${columns}) VALUE (${placeholders})`,
+    [...Object.values(infoSold)]);
+
+  return insertId;
 };
 
 const findById = async (saleId) => {
-  const result = connection.execute(`
+  const [result] = await connection.execute(`
   SELECT * FROM StoreManager.sales_products WHERE sale_id = ?`, [saleId]);
-  console.log(result);
+  return result;
 };
 
 module.exports = {

@@ -18,7 +18,7 @@ describe('SALES SERVICE', function () {
     inexistente, em uma requisição com vários items `, async function () {
 
     });
-    describe.only("Validando a criação de uma nova venda (SUCESSO)", function () {
+    describe("Validando a criação de uma nova venda (SUCESSO)", function () {
       it('é possível cadastrar uma venda com sucesso', async function () {
         sinon.stub(salesModel, 'insert').resolves(3);
         sinon.stub(salesProductsModel, 'insert')
