@@ -8,9 +8,10 @@ const insert = async (infoSold) => {
     .map((_key) => '?')
     .join(', ');
 
-  const [{ insertId }] = await connection.execute(`
-  INSERT INTO (${columns}) VALUE (${placeholders})`,
-    [...Object.values(infoSold)]);
+  const [{ insertId }] = await connection.execute(
+  `INSERT INTO StoreManager.sales_products (${columns}) VALUE (${placeholders})`,
+    [...Object.values(infoSold)],
+  );
 
   return insertId;
 };

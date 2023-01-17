@@ -43,9 +43,43 @@ const correctResponseCreateSale = {
   ],
 };
 
+const createSaleBodyMissingProductId = [
+  {
+    productId: 1,
+    quantity: 1,
+  },
+  {
+    quantity: 5,
+  },
+];
+
+const createSaleBodyMissingQuantity = [
+  {
+    productId: 1,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+
+const createSaleBodyWrongQuantity = [
+  {
+    productId: 1,
+    quantity: 0,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+
 module.exports = {
   productsList,
   newProduct,
   createSaleBody,
-  correctResponseCreateSale
+  correctResponseCreateSale,
+  createSaleBodyMissingProductId,
+  createSaleBodyMissingQuantity,
+  createSaleBodyWrongQuantity
 };
