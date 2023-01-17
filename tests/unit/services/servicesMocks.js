@@ -29,6 +29,16 @@ const correctSaleInsert = [
   },
 ];
 
+incorrectSaleInsert = [
+  {
+    productId: 1,
+    quantity: 1,
+  },
+  {
+    quantity: 5,
+  },
+];
+
 const insertSaleResponse = {
   id: 3,
   itemsSold: [
@@ -47,5 +57,6 @@ module.exports = {
   productsList,
   correctProductInsert,
   correctSaleInsert,
-  insertSaleResponse
+  insertSaleResponse,
+  incorrectSaleInsert
 };

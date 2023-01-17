@@ -1,4 +1,11 @@
 const { addProductSchema } = require('./schema');
+const { productsModel } = require('../../models');
+
+const doesProductExist = async (productId) => {
+  const product = await productsModel.findById(productId);
+  if (product) return true;
+  return false;
+};
 
 const validationNewProduct = (productInfo) => {
   const { error } = addProductSchema.validate(productInfo);
@@ -14,4 +21,5 @@ const validationNewProduct = (productInfo) => {
 
 module.exports = {
   validationNewProduct,
+  doesProductExist,
 };

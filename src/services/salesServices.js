@@ -1,6 +1,10 @@
 const model = require('../models');
+const { saleIsValid } = require('./validations/sales.validation');
 
 const createSale = async (saleInfo) => {
+  const error = await saleIsValid(saleInfo);
+  if (error.type) return error;
+
   const saleId = await model.salesModel.insert();
 
   await Promise.all(saleInfo.map(

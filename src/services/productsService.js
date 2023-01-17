@@ -1,11 +1,5 @@
 const model = require('../models');
-const { validationNewProduct } = require('./validations/products.validations');
-
-const doesProductExist = async (productId) => {
-  const product = await model.productsModel.findById(productId);
-  if (product) return true;
-  return false;
-};
+const { validationNewProduct, doesProductExist } = require('./validations/products.validations');
 
 const findAll = async () => {
   const products = await model.productsModel.findAll();
