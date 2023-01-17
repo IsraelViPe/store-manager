@@ -10,14 +10,69 @@ const {  salesServices } = require("../../../src/services");
 const { salesController } = require("../../../src/controllers");
 const { createSaleBody, correctResponseCreateSale,
   createSaleBodyMissingProductId,
-  createSaleBodyMissingQuantity, createSaleBodyWrongQuantity } = require("./controller.mock");
+  createSaleBodyMissingQuantity,
+  createSaleBodyWrongQuantity,
+  salesList, responseFindSaleById} = require("./controller.mock");
 
 
 describe('SALES CONTROLLER', function () {
   afterEach(function () {
     sinon.restore();
   })
-  describe('Rota POST /sale (FALHA de validação)', function () {
+  describe('Rota GET /sale lista todas as vendas', function () {
+    it('deve listar todas as vendas corretamente', async function () {
+      const res = {};
+      const req = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(salesServices, 'findAll')
+        .resolves({ type: null, message: salesList });
+
+      await salesController.findAll(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(salesList);
+    });
+  })
+  describe('Rota GET /sales/:id busca venda por id', function () {
+    it('deve falhar ao tentar buscar uma venda inexistente no banco', async function () {
+       const res = {};
+      const req = {
+         params: { id: 999}
+       };
+
+       res.status = sinon.stub().returns(res);
+       res.json = sinon.stub().returns();
+       sinon
+         .stub(salesServices, "findById")
+         .resolves({ type: 'NOT_FOUND', message: 'Sale not found' });
+
+       await salesController.findById(req, res);
+
+       expect(res.status).to.have.been.calledWith(404);
+       expect(res.json).to.have.been.calledWith({ message: "Sale not found" });
+    });
+    it('deve trazer a venda referente ao id buscado', async function () {
+      const res = {};
+      const req = {
+        params: {id : 1 }
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(salesServices, "findById")
+        .resolves({ type: null, message: responseFindSaleById });
+
+      await salesController.findById(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(responseFindSaleById);
+    });
+  })
+  describe('Rota POST /sales (FALHA de validação)', function () {
     it("não é possível realizar operações em uma venda sem o campo productId]", async function () {
 
       const res = {};

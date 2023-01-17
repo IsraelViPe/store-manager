@@ -15,7 +15,7 @@ const saleIsValid = async (saleInfo) => {
 
 const doesSalesExist = async (saleId) => {
   const sale = await salesModel.findById(saleId);
-  if (sale) return true;
+  if (sale && sale.length !== 0) return true;
   return false;
 };
 

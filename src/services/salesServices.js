@@ -5,6 +5,7 @@ const { saleIsValid, validateIdSale } = require('./validations/sales.validation'
 
 const findAll = async () => {
   const salesList = await model.salesModel.findAll();
+  if (!salesList) return { type: 'INTERNAL_SERVER_ERROR', message: 'internal server error' };
   return { type: null, message: salesList };
 };
 
