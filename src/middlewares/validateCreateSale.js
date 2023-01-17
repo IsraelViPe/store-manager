@@ -1,4 +1,5 @@
 module.exports = (req, res, next) => {
+  console.log(req.body);
   const someProductIdMissing = req.body.some(({ productId }) => productId === undefined);
   const someQuantityMissing = req.body.some(({ quantity }) => quantity === undefined);
   const someInvalidQuantity = req.body.some(({ quantity }) => quantity <= 0);

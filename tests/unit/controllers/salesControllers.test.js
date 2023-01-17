@@ -13,7 +13,7 @@ const { createSaleBody, correctResponseCreateSale,
   createSaleBodyMissingQuantity, createSaleBodyWrongQuantity } = require("./controller.mock");
 
 
-describe.only('SALES CONTROLLER', function () {
+describe('SALES CONTROLLER', function () {
   afterEach(function () {
     sinon.restore();
   })
@@ -26,7 +26,8 @@ describe.only('SALES CONTROLLER', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
 
-      validateCreateSale(req.body);
+      sinon.stub().returns(validateCreateSale(req, res));
+
       await salesController.createSale(req, res);
 
       expect(res.status).to.have.been.calledWith(400);
@@ -41,7 +42,8 @@ describe.only('SALES CONTROLLER', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
 
-      validateCreateSale(body);
+      sinon.stub().returns(validateCreateSale(req, res));
+
       await salesController.createSale(req, res);
 
       expect(res.status).to.have.been.calledWith(400);
@@ -55,6 +57,8 @@ describe.only('SALES CONTROLLER', function () {
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
+
+      //  sinon.stub().returns(validateCreateSale(req, res));
 
       await salesController.createSale(req, res);
 
@@ -78,7 +82,7 @@ describe.only('SALES CONTROLLER', function () {
        await salesController.createSale(req, res);
 
        expect(res.status).to.have.been.calledWith(201);
-       expect(res.json).to.have.been.calledWith({message: correctResponseCreateSale});
+       expect(res.json).to.have.been.calledWith(correctResponseCreateSale);
     });
   });
 })

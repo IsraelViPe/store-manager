@@ -6,7 +6,7 @@ const createSale = async (req, res) => {
 
   if (type) return res.status(httpErrorCode(type)).json({ message });
 
-  return res.status(201).json({ message });
+  return res.status(201).json(message);
 };
 
 module.exports = {

@@ -1,4 +1,6 @@
+const camelize = require('camelize');
 const model = require('../models');
+
 const { saleIsValid } = require('./validations/sales.validation');
 
 const createSale = async (saleInfo) => {
@@ -11,11 +13,13 @@ const createSale = async (saleInfo) => {
     async (info) => model.salesProductsModel.insert({ saleId, ...info }),
   ));
 
-  const itemsSold = await model.salesProductsModel.findById(saleId);
+  const itemsSold = saleInfo;
+
+  console.log(itemsSold, 'item sold');
 
   const response = { id: saleId, itemsSold };
 
-  return { type: null, message: response };
+  return { type: null, message: camelize(response) };
 };
 
 module.exports = {

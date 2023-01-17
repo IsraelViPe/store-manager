@@ -14,9 +14,9 @@ const productsList = [
 ];
 
 const correctProductInsert = {
-  id: 4,
-  name: "Liquidificador",
-}
+  id: 2,
+  name: "Traje de encolhimento",
+};
 
 const correctSaleInsert = [
   {
@@ -35,6 +35,7 @@ incorrectSaleInsert = [
     quantity: 1,
   },
   {
+    productId: 9999,
     quantity: 5,
   },
 ];
