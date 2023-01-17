@@ -52,17 +52,40 @@
     "containerId": "",
     "name": "sales(cadastrar uma nova venda)",
     "url": "{{localhost}}/sales",
-    "method": "POST",
+    "method": "GET",
     "sortNum": 50000,
     "created": "2023-01-16T20:39:49.188Z",
-    "modified": "2023-01-17T17:29:17.883Z",
+    "modified": "2023-01-17T18:54:32.306Z",
     "headers": [],
     "params": [],
-    "body": {
-      "type": "json",
-      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 1\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]",
-      "form": []
-    },
+    "tests": []
+  },
+  {
+    "_id": "519e5781-a35d-4caf-9506-5da4a4101ce4",
+    "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
+    "containerId": "",
+    "name": "findBYid(SALES)",
+    "url": "{{localhost}}/sales/1",
+    "method": "GET",
+    "sortNum": 60000,
+    "created": "2023-01-17T18:55:00.726Z",
+    "modified": "2023-01-17T19:04:42.355Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "a3c9c641-f2d1-46a2-8ef6-b51d2e013754",
+    "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
+    "containerId": "",
+    "name": "findALL(SALES)",
+    "url": "{{localhost}}/sales",
+    "method": "GET",
+    "sortNum": 70000,
+    "created": "2023-01-17T18:58:45.780Z",
+    "modified": "2023-01-17T18:58:57.266Z",
+    "headers": [],
+    "params": [],
     "tests": []
   }
 ]

@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const connection = require('../../../src/models/connection');
 
 const { salesModel } = require('../../../src/models');
-const {  correctBodyInsertSale } = require('./modelMocks');
+const {  correctBodyInsertSale, salesList, responseFindSaleById } = require('./modelMocks');
 
 describe('SALES MODEL', function () {
   afterEach(function () {
@@ -18,4 +18,20 @@ describe('SALES MODEL', function () {
       expect(result).to.equal(3);
     });
   });
+  describe.only('findAll e findById', function () {
+    it('se é possível listar todas as vendas', async function () {
+      sinon.stub(connection, 'execute').resolves([salesList])
+
+      const result = await salesModel.findAll();
+
+      expect(result).to.be.deep.equal(salesList);
+    });
+    it('se é possível listar uma venda especifica com sucesso (ID)', async function () {
+      sinon.stub(connection, 'execute').resolves([responseFindSaleById])
+
+      const result = await salesModel.findById(1)
+
+      expect(result).to.be.deep.equal(responseFindSaleById);
+    });
+  })
 });

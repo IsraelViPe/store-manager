@@ -1,6 +1,8 @@
 const express = require('express');
+const camelize = require('camelize');
 const { productsController, salesController } = require('./controllers');
 const validateCreateSale = require('./middlewares/validateCreateSale');
+const { salesModel } = require('./models');
 
 const app = express();
 
@@ -14,6 +16,17 @@ app.get('/', (_request, response) => {
 app.get('/products', productsController.findAll);
 
 app.get('/products/:id', productsController.findById);
+
+app.get('/sales', async (req, res) => {
+  const result = await salesModel.findAll();
+  res.status(200).json(camelize(result));
+});
+
+app.get('/sales/:id', async (req, res) => {
+  const { id } = req.params;
+  const result = await salesModel.findById(id);
+  res.status(200).json(camelize(result));
+});
 
 app.post('/products', productsController.insert);
 
