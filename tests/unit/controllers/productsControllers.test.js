@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const { productsService } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers');
-const { productsList, newProduct } = require('./productsController.mock');
+const { productsList, newProduct } = require('./controller.mock');
 
 describe('PRODUCTS CONTROLLER', function () {
   afterEach(function () {
