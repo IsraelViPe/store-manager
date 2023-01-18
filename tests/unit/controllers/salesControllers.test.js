@@ -140,6 +140,39 @@ describe('SALES CONTROLLER', function () {
        expect(res.json).to.have.been.calledWith(correctResponseCreateSale);
     });
   });
+  describe('Rota DELETE /sales/:id (deleta uma venda por id', function () {
+     it("retorna status 404 ao tentar deletar um produto que não existe", async function () {
+       const res = {};
+       const req = { params: { id: 9999 } };
+
+       res.status = sinon.stub().returns(res);
+       res.json = sinon.stub().returns();
+       sinon
+         .stub(salesServices, "deleteById")
+         .resolves({ type: "NOT_FOUND", message: "Sale not found" });
+
+       await salesController.deleteById(req, res);
+
+       expect(res.status).to.have.been.calledWith(404);
+       expect(res.json).to.have.been.calledWith({
+         message: "Sale not found",
+       });
+     });
+     it("retorna 204 ao deletar um produto com sucesso", async function () {
+       const res = {};
+       const req = { params: { id: 1 } };
+
+       res.status = sinon.stub().returns(res);
+       res.end = sinon.stub().returns();
+       sinon
+         .stub(salesServices, "deleteById")
+         .resolves({ type: null, message: "" });
+
+       await salesController.deleteById(req, res);
+
+       expect(res.status).to.have.been.calledWith(204);
+     });
+  })
 
 })
 

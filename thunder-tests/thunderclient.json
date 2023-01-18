@@ -126,11 +126,11 @@
     "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
     "containerId": "",
     "name": "delete(SALES)",
-    "url": "{{localhost}}/sales/2",
+    "url": "{{localhost}}/sales/1",
     "method": "DELETE",
     "sortNum": 100000,
     "created": "2023-01-18T18:27:57.088Z",
-    "modified": "2023-01-18T18:40:40.381Z",
+    "modified": "2023-01-18T19:10:16.091Z",
     "headers": [],
     "params": [],
     "tests": []

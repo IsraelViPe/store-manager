@@ -85,7 +85,7 @@ describe('SALES SERVICE', function () {
       expect(result.message).to.be.deep.equal(insertSaleResponse);
     });
   });
-   describe.only("Testando operação delete (excluir uma venda da base)", function () {
+   describe("Testando operação delete (excluir uma venda da base)", function () {
      it("falha ao tentar excluir venda que não existe", async function () {
        sinon.stub(salesModel, 'findById').resolves(undefined);
 
