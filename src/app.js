@@ -27,14 +27,7 @@ app.post('/sales', validateCreateSale, salesController.createSale);
 
 app.put('/products/:id', productsController.updateById);
 
-app.delete('/products/:id', async (req, res) => {
-  const { id } = req.params;
-  const result = await productsModel.deleteById(id);
-
-  console.log(result);
-
-  res.status(204).end();
-});
+app.delete('/products/:id', productsController.deleteById);
 
 // não remova essa exportação, é para o avaliador funcionar
 // você pode registrar suas rotas normalmente, como o exemplo acima

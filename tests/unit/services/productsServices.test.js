@@ -82,14 +82,16 @@ describe('PRODUCTS SERVICE', function () {
     it('falha ao tentar excluir produto que não existe', async function () {
        sinon.stub(productsModel, 'findById').resolves(undefined)
 
-       const result = await productsService.deleteById(9999);
+      const result = await productsService.deleteById(9999);
 
-       expect(result.message).to.be.equal("Product not found");
+      console.log(result.message);
+
+       expect(result.message).to.be.deep.equal('Product not found');
     });
     it('é possível deletar um produto com sucesso', async function () {
       sinon.stub(productsModel, 'deleteById').resolves([deleteResponse]);
 
-      const result = await productsService.deleteById(1);
+      const result = await productsService.deleteById(3);
 
       expect(result.message).to.be.equal('');
     });

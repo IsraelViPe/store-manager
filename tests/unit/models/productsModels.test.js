@@ -47,7 +47,7 @@ describe('PRODUCTS MODEL', function () {
   })
   describe('delete', function () {
     it('é possível deletar um produto com sucesso', async function () {
-      sinon.stub(connection, 'execute').resolves([responseToUpdate]);
+      sinon.stub(connection, 'execute').resolves(responseToUpdate);
 
       const result = await productsModel.deleteById(1);
 

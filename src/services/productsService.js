@@ -49,6 +49,7 @@ const deleteById = async (productId) => {
   if (response.affectedRows === 0) {
     return { type: 'INTERNAL_SERVER_ERROR', message: 'internal server error' };
   }
+
   return { type: null, message: '' };
 };
 
