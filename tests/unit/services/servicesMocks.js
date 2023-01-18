@@ -82,6 +82,11 @@ const responseFindSaleById = [
   },
 ];
 
+const updatedProduct = {
+  id: 1,
+  name: "Martelo do Batman",
+};
+
 
 module.exports = {
   productsList,
@@ -90,5 +95,6 @@ module.exports = {
   insertSaleResponse,
   incorrectSaleInsert,
   salesList,
-  responseFindSaleById
+  responseFindSaleById,
+  updatedProduct
 };

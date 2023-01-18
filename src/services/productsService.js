@@ -22,8 +22,26 @@ const insert = async (productInfo) => {
   return { type: null, message: newProduct };
 };
 
+const updateById = async (productId, productBody) => {
+   const error = validationNewProduct(productBody);
+  if (error.type) return error;
+
+  if (!(await doesProductExist(productId))) {
+    return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+  }
+
+  const response = await model.productsModel.updateById(productId, productBody);
+  if (response.affectedRows === 0) {
+    return { type: 'INTERNAL_SERVER_ERROR', message: 'internal server error' };
+  }
+
+    const updatedProduct = await model.productsModel.findById(productId);
+    return { type: null, message: updatedProduct };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
+  updateById,
 };

@@ -2,7 +2,7 @@ const express = require('express');
 // const camelize = require('camelize');
 const { productsController, salesController } = require('./controllers');
 const validateCreateSale = require('./middlewares/validateCreateSale');
-const { productsModel } = require('./models');
+// const { productsService } = require('./services');
 
 const app = express();
 
@@ -25,12 +25,7 @@ app.post('/products', productsController.insert);
 
 app.post('/sales', validateCreateSale, salesController.createSale);
 
-app.put('/products/:id', async (req, res) => {
-  const { id } = req.params;
-  const result = await productsModel.updateById(id, req.body);
-
-  res.status(200).json({ result });
-});
+app.put('/products/:id', productsController.updateById);
 
 // não remova essa exportação, é para o avaliador funcionar
 // você pode registrar suas rotas normalmente, como o exemplo acima

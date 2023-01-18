@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const { productsService } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers');
-const { productsList, newProduct } = require('./controller.mock');
+const { productsList, newProduct, updatedProduct } = require('./controller.mock');
 
 describe('PRODUCTS CONTROLLER', function () {
   afterEach(function () {
@@ -115,4 +115,38 @@ describe('PRODUCTS CONTROLLER', function () {
     })
 
   })
-});
+  describe.only('Rota PUT /products/:id (atualiza um produto pelo id)', function () {
+    it('se retorna status 404 ao tentar atualizar um produto que não existe', async function () {
+       const res = {};
+       const req = { body: { name: "Martelo do Batman" }, params: 9999  };
+
+       res.status = sinon.stub().returns(res);
+       res.json = sinon.stub().returns();
+       sinon
+         .stub(productsService, "updateById")
+         .resolves({ type: "NOT_FOUND", message: "Product not found" });
+
+       await productsController.updateById(req, res);
+
+       expect(res.status).to.have.been.calledWith(404);
+       expect(res.json).to.have.been.calledWith({
+         message: 'Product not found',
+       });
+    });
+    it('se atualiza um produto com sucesso', async function () {
+      const res = {};
+      const req = { body: { name: 'Martelo do Batman' }, params: 1 };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, "updateById")
+        .resolves({ type: null, message: updatedProduct });
+
+      await productsController.updateById(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(updatedProduct);
+    });
+    })
+  })

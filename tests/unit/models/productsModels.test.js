@@ -35,7 +35,7 @@ describe('PRODUCTS MODEL', function () {
       });
     });
   })
-  describe.only('updateById', function () {
+  describe('updateById', function () {
     it('é possível alterar um produto com sucesso', async function () {
       sinon.stub(connection, 'execute').resolves([responseToUpdate])
 

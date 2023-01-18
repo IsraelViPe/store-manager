@@ -3,9 +3,12 @@ const { expect } = require("chai");
 
 const { productsModel } = require('../../../src/models');
 const { productsService } = require('../../../src/services');
-const { productsList, correctProductInsert } = require('./servicesMocks');
+const { productsList, correctProductInsert, updatedProduct } = require('./servicesMocks');
 
 describe('PRODUCTS SERVICE', function () {
+    afterEach(function () {
+      sinon.restore();
+    });
   describe('Testando operação findAll (listar todos produtos)', function () {
     it('se lista todos os produtos corretamente', async function () {
       sinon.stub(productsModel, 'findAll').resolves(productsList);
@@ -15,9 +18,6 @@ describe('PRODUCTS SERVICE', function () {
     })
   })
   describe('Testando operação  findById (listar por id)', function () {
-    afterEach(function () {
-      sinon.restore();
-    })
     it('se não é possível listar um produto que não existe', async function () {
       sinon.stub(productsModel, 'findById').resolves(undefined)
 
@@ -31,6 +31,31 @@ describe('PRODUCTS SERVICE', function () {
       const result = await productsService.findById(1);
 
       expect(result.message).to.deep.equal(productsList[0]);
+    });
+  })
+  describe('Testando operação de updateById (atualizar produto por id)', function () {
+    it('não é possível alterar um produto que não existe', async function () {
+      sinon
+        .stub(productsModel, "updateById")
+        .resolves({ type: "PRODUCT_NOT_FOUND", message: "Product not found" });
+      sinon.stub(productsModel, "findById").resolves(undefined);
+
+      result = await productsService.updateById(9999, {
+        name: "Martelo do Batman",
+      });
+
+      expect(result.type).to.be.equal("PRODUCT_NOT_FOUND");
+      expect(result.message).to.be.equal("Product not found");
+    });
+    it('é possível alterar um produto com sucesso', async function () {
+      sinon.stub(productsModel, 'updateById').resolves(updatedProduct);
+      sinon.stub(productsModel, 'findById').resolves(updatedProduct);
+
+      result = await productsService.updateById(1, { name: 'Martelo do Batman' });
+
+      expect(result.type).to.be.equal(null);
+      expect(result.message).to.be.equal(updatedProduct);
+
     });
   })
   describe('Testando operação insert (inserir um novo produto)', function () {

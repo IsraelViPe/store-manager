@@ -28,7 +28,7 @@ const salesList = [
   },
 ];
 
-correctBodyInsertSale = [
+const correctBodyInsertSale = [
   {
     productId: 1,
     quantity: 1,
@@ -52,11 +52,6 @@ const responseFindSaleById = [
   },
 ];
 
-const updatedProduct = {
-  id: 1,
-  name: "Martelo do Batman",
-};
-
 const responseToUpdate = [{
   fieldCount: 0,
   affectedRows: 1,
@@ -72,6 +67,5 @@ module.exports = {
   correctBodyInsertSale,
   salesList,
   responseFindSaleById,
-  updatedProduct,
   responseToUpdate
 };
