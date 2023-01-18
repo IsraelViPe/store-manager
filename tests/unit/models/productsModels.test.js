@@ -4,7 +4,7 @@ const connection = require('../../../src/models/connection');
 
 const { productsModel } = require('../../../src/models');
 
-const { productsList } = require('./modelMocks');
+const { productsList, responseToUpdate } = require('./modelMocks');
 
 describe('PRODUCTS MODEL', function () {
   afterEach(function () {
@@ -34,6 +34,16 @@ describe('PRODUCTS MODEL', function () {
         expect(result).to.be.deep.equal({id:4,name:'Produto1'});
       });
     });
+  })
+  describe.only('updateById', function () {
+    it('é possível alterar um produto com sucesso', async function () {
+      sinon.stub(connection, 'execute').resolves([responseToUpdate])
+
+      const [result] = await productsModel.updateById(1, {name:'quebra-cabeça'});
+
+      expect(result.affectedRows).to.be.equal(1);
+      expect(result.changedRows).to.be.equal(1);
+    })
   })
 
 })

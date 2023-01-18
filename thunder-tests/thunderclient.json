@@ -87,5 +87,24 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "d9996b4f-4b91-472d-ad22-0bf858dc581a",
+    "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
+    "containerId": "",
+    "name": "updateById(PRODUCT)",
+    "url": "{{localhost}}/products/1",
+    "method": "PUT",
+    "sortNum": 80000,
+    "created": "2023-01-18T01:46:32.950Z",
+    "modified": "2023-01-18T02:01:18.489Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Martelo do bom\"\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]

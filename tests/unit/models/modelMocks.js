@@ -52,9 +52,26 @@ const responseFindSaleById = [
   },
 ];
 
+const updatedProduct = {
+  id: 1,
+  name: "Martelo do Batman",
+};
+
+const responseToUpdate = [{
+  fieldCount: 0,
+  affectedRows: 1,
+  insertId: 0,
+  info: 'Rows matched: 1  Changed: 0  Warnings: 0',
+  serverStatus: 2,
+  warningStatus: 0,
+  changedRows: 1
+}]
+
 module.exports = {
   productsList,
   correctBodyInsertSale,
   salesList,
-  responseFindSaleById
+  responseFindSaleById,
+  updatedProduct,
+  responseToUpdate
 };
