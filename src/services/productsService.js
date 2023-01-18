@@ -27,7 +27,7 @@ const updateById = async (productId, productBody) => {
   if (error.type) return error;
 
   if (!(await doesProductExist(productId))) {
-    return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+    return { type: 'NOT_FOUND', message: 'Product not found' };
   }
 
   const response = await model.productsModel.updateById(productId, productBody);

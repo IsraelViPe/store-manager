@@ -93,11 +93,11 @@
     "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
     "containerId": "",
     "name": "updateById(PRODUCT)",
-    "url": "{{localhost}}/products/99999",
+    "url": "{{localhost}}/products/2",
     "method": "PUT",
     "sortNum": 80000,
     "created": "2023-01-18T01:46:32.950Z",
-    "modified": "2023-01-18T02:53:10.653Z",
+    "modified": "2023-01-18T14:14:03.823Z",
     "headers": [],
     "params": [],
     "body": {
