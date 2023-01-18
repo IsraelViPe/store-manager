@@ -78,7 +78,7 @@ describe('PRODUCTS SERVICE', function () {
       expect(result.message).to.be.deep.equal('"name" length must be at least 5 characters long');
     });
   })
-  describe.only('Testando operação delete (excluir um produto da base)', function () {
+  describe('Testando operação delete (excluir um produto da base)', function () {
     it('falha ao tentar excluir produto que não existe', async function () {
        sinon.stub(productsModel, 'findById').resolves(undefined)
 

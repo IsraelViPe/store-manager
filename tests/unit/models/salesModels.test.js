@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const connection = require('../../../src/models/connection');
 
 const { salesModel } = require('../../../src/models');
-const {  correctBodyInsertSale, salesList, responseFindSaleById } = require('./modelMocks');
+const {  correctBodyInsertSale, salesList, responseFindSaleById, responseToUpdate } = require('./modelMocks');
 
 describe('SALES MODEL', function () {
   afterEach(function () {
@@ -32,6 +32,15 @@ describe('SALES MODEL', function () {
       const result = await salesModel.findById(1)
 
       expect(result).to.be.deep.equal(responseFindSaleById);
+    });
+  })
+  describe('deleteById', function () {
+    it('é possível deletar uma venda com sucesso', async function () {
+      sinon.stub(connection, 'execute').resolves(responseToUpdate);
+
+      const result = await salesModel.deleteById(1);
+
+      expect(result.affectedRows).to.be.equal(1);
     });
   })
 });

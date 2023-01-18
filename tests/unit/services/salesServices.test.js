@@ -3,8 +3,15 @@ const { expect } = require("chai");
 
 const { salesModel, salesProductsModel, productsModel } = require("../../../src/models");
 const { salesServices } = require("../../../src/services");
-const { correctSaleInsert, insertSaleResponse,
-  incorrectSaleInsert, productsList, salesList, responseFindSaleById } = require("./servicesMocks");
+const {
+  correctSaleInsert,
+  insertSaleResponse,
+  incorrectSaleInsert,
+  productsList,
+  salesList,
+  responseFindSaleById,
+  deleteResponse,
+} = require("./servicesMocks");
 
 
 describe('SALES SERVICE', function () {
@@ -78,4 +85,20 @@ describe('SALES SERVICE', function () {
       expect(result.message).to.be.deep.equal(insertSaleResponse);
     });
   });
+   describe.only("Testando operação delete (excluir uma venda da base)", function () {
+     it("falha ao tentar excluir venda que não existe", async function () {
+       sinon.stub(salesModel, 'findById').resolves(undefined);
+
+       const result = await salesServices.deleteById(9999);
+
+       expect(result.message).to.be.deep.equal("Sale not found");
+     });
+     it("é possível deletar um produto com sucesso", async function () {
+       sinon.stub(salesModel, "deleteById").resolves([deleteResponse]);
+
+       const result = await salesServices.deleteById(1);
+
+       expect(result.message).to.be.equal("");
+     });
+   });
 });

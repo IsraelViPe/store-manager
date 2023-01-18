@@ -1,4 +1,5 @@
 const camelize = require('camelize');
+const { salesServices } = require('.');
 const model = require('../models');
 
 const { saleIsValid, validateIdSale } = require('./validations/sales.validation');
@@ -35,8 +36,22 @@ const createSale = async (saleInfo) => {
   return { type: null, message: camelize(response) };
 };
 
+const deleteById = async (saleId) => {
+  const error = await validateIdSale(saleId);
+  if (error.type) return error;
+
+  const response = await model.salesModel.deleteById(saleId);
+
+  if (response.affectedRows === 0) {
+    return { type: 'INTERNAL_SERVER_ERROR', message: 'internal server error' };
+  }
+
+  return { type: null, message: '' };
+};
+
 module.exports = {
   createSale,
   findAll,
   findById,
+  deleteById,
 };
