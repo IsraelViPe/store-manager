@@ -39,9 +39,23 @@ const updateById = async (productId, productBody) => {
     return { type: null, message: updatedProduct };
 };
 
+const deleteById = async (productId) => {
+  if (!(await doesProductExist(productId))) {
+    return { type: 'NOT_FOUND', message: 'Product not found' };
+  }
+
+  const response = await model.productsModel.deleteById(productId);
+
+  if (response.affectedRows === 0) {
+    return { type: 'INTERNAL_SERVER_ERROR', message: 'internal server error' };
+  }
+  return { type: null, message: '' };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   updateById,
+  deleteById,
 };

@@ -3,7 +3,8 @@ const { expect } = require("chai");
 
 const { productsModel } = require('../../../src/models');
 const { productsService } = require('../../../src/services');
-const { productsList, correctProductInsert, updatedProduct } = require('./servicesMocks');
+const { productsList, correctProductInsert,
+  updatedProduct, deleteResponse } = require('./servicesMocks');
 
 describe('PRODUCTS SERVICE', function () {
     afterEach(function () {
@@ -37,14 +38,14 @@ describe('PRODUCTS SERVICE', function () {
     it('não é possível alterar um produto que não existe', async function () {
       sinon
         .stub(productsModel, "updateById")
-        .resolves({ type: "PRODUCT_NOT_FOUND", message: "Product not found" });
+        .resolves({ type: "NOT_FOUND", message: "Product not found" });
       sinon.stub(productsModel, "findById").resolves(undefined);
 
       result = await productsService.updateById(9999, {
         name: "Martelo do Batman",
       });
 
-      expect(result.type).to.be.equal("PRODUCT_NOT_FOUND");
+      expect(result.type).to.be.equal("NOT_FOUND");
       expect(result.message).to.be.equal("Product not found");
     });
     it('é possível alterar um produto com sucesso', async function () {
@@ -75,6 +76,22 @@ describe('PRODUCTS SERVICE', function () {
       const result = await productsService.insert({ name: "x" });
 
       expect(result.message).to.be.deep.equal('"name" length must be at least 5 characters long');
+    });
+  })
+  describe.only('Testando operação delete (excluir um produto da base)', function () {
+    it('falha ao tentar excluir produto que não existe', async function () {
+       sinon.stub(productsModel, 'findById').resolves(undefined)
+
+       const result = await productsService.deleteById(9999);
+
+       expect(result.message).to.be.equal("Product not found");
+    });
+    it('é possível deletar um produto com sucesso', async function () {
+      sinon.stub(productsModel, 'deleteById').resolves([deleteResponse]);
+
+      const result = await productsService.deleteById(1);
+
+      expect(result.message).to.be.equal('');
     });
   })
 })

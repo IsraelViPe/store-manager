@@ -29,16 +29,16 @@ const correctSaleInsert = [
   },
 ];
 
-incorrectSaleInsert = [
+const incorrectSaleInsert = [
   {
     productId: 1,
     quantity: 1,
   },
   {
-    productId: 9999,
     quantity: 5,
   },
 ];
+
 
 const insertSaleResponse = {
   id: 3,
@@ -87,14 +87,26 @@ const updatedProduct = {
   name: "Martelo do Batman",
 };
 
+const deleteResponse = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: "Rows matched: 1  Changed: 0  Warnings: 0",
+    serverStatus: 2,
+    warningStatus: 0,
+    changedRows: 0,
+  },
+];
 
 module.exports = {
   productsList,
   correctProductInsert,
   correctSaleInsert,
-  insertSaleResponse,
   incorrectSaleInsert,
+  insertSaleResponse,
   salesList,
   responseFindSaleById,
-  updatedProduct
+  updatedProduct,
+  deleteResponse
 };
