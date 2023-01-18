@@ -45,5 +45,14 @@ describe('PRODUCTS MODEL', function () {
       expect(result.changedRows).to.be.equal(1);
     })
   })
+  describe('delete', function () {
+    it('é possível deletar um produto com sucesso', async function () {
+      sinon.stub(connection, 'execute').resolves([responseToUpdate]);
+
+      const result = await productsModel.deleteById(1);
+
+       expect(result.affectedRows).to.be.equal(1);
+    })
+  });
 
 })

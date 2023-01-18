@@ -115,7 +115,7 @@ describe('PRODUCTS CONTROLLER', function () {
     })
 
   })
-  describe.only('Rota PUT /products/:id (atualiza um produto pelo id)', function () {
+  describe('Rota PUT /products/:id (atualiza um produto pelo id)', function () {
     it('se retorna status 404 ao tentar atualizar um produto que não existe', async function () {
        const res = {};
        const req = { body: { name: "Martelo do Batman" }, params: 9999  };
