@@ -62,10 +62,18 @@ const responseToUpdate = [{
   changedRows: 1
 }]
 
+const responseSearchByQuery = [
+  {
+    id: 1,
+    name: "Martelo de Thor",
+  },
+];
+
 module.exports = {
   productsList,
   correctBodyInsertSale,
   salesList,
   responseFindSaleById,
-  responseToUpdate
+  responseToUpdate,
+  responseSearchByQuery
 };

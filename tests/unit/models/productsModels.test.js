@@ -4,7 +4,7 @@ const connection = require('../../../src/models/connection');
 
 const { productsModel } = require('../../../src/models');
 
-const { productsList, responseToUpdate } = require('./modelMocks');
+const { productsList, responseToUpdate, responseSearchByQuery } = require('./modelMocks');
 
 describe('PRODUCTS MODEL', function () {
   afterEach(function () {
@@ -54,5 +54,20 @@ describe('PRODUCTS MODEL', function () {
        expect(result.affectedRows).to.be.equal(1);
     })
   });
+  describe.only('searchByQuery', function () {
+    it('é possível buscar um produto pelo name', async function () {
+      sinon.stub(connection, 'execute').resolves(responseSearchByQuery);
 
+      const result = await productsModel.searchByQuery('Martelo');
+
+      expect([result]).to.be.deep.equal(responseSearchByQuery);
+    });
+    it('retorna um a lista com todos os produtos quando a query for vazia', async function () {
+      sinon.stub(connection, "execute").resolves([productsList]);
+
+      const result = await productsModel.searchByQuery();
+
+      expect(result).to.be.deep.equal(productsList);
+    });
+  });
 })
