@@ -52,12 +52,17 @@
     "containerId": "",
     "name": "sales(cadastrar uma nova venda)",
     "url": "{{localhost}}/sales",
-    "method": "GET",
+    "method": "POST",
     "sortNum": 50000,
     "created": "2023-01-16T20:39:49.188Z",
-    "modified": "2023-01-17T18:54:32.306Z",
+    "modified": "2023-01-18T19:41:31.137Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 1\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]",
+      "form": []
+    },
     "tests": []
   },
   {
@@ -131,6 +136,20 @@
     "sortNum": 100000,
     "created": "2023-01-18T18:27:57.088Z",
     "modified": "2023-01-18T19:10:16.091Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "c84224b6-e752-437c-a026-5c156ec8c78d",
+    "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
+    "containerId": "",
+    "name": "update(SALE)",
+    "url": "{{localhost}}/sales/2",
+    "method": "PUT",
+    "sortNum": 110000,
+    "created": "2023-01-18T19:30:14.833Z",
+    "modified": "2023-01-18T19:30:39.734Z",
     "headers": [],
     "params": [],
     "tests": []

@@ -29,6 +29,17 @@ const correctSaleInsert = [
   },
 ];
 
+const infoToUpdateSale = [
+  {
+    productId: 1,
+    quantity: 20,
+  },
+  {
+    productId: 2,
+    quantity: 50,
+  },
+];
+
 const incorrectSaleInsert = [
   {
     productId: 1,
@@ -99,6 +110,18 @@ const deleteResponse = [
   },
 ];
 
+const updateResponse = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: "Rows matched: 1  Changed: 0  Warnings: 0",
+    serverStatus: 2,
+    warningStatus: 0,
+    changedRows: 1,
+  },
+];
+
 module.exports = {
   productsList,
   correctProductInsert,
@@ -108,5 +131,7 @@ module.exports = {
   salesList,
   responseFindSaleById,
   updatedProduct,
-  deleteResponse
+  deleteResponse,
+  updateResponse,
+  infoToUpdateSale
 };

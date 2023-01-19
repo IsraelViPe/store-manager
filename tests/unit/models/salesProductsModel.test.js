@@ -3,8 +3,8 @@ const { expect } = require("chai");
 const connection = require("../../../src/models/connection");
 
 const { salesProductsModel } = require("../../../src/models");
-const { correctBodyInsertSale: salesProductsList  } = require("./modelMocks");
-const { execute } = require("../../../src/models/connection");
+const { correctBodyInsertSale: salesProductsList, responseToUpdate  } = require("./modelMocks");
+
 
 describe('SALES_PRODUCTS MODEL', function () {
   beforeEach(function () {
@@ -27,6 +27,18 @@ describe('SALES_PRODUCTS MODEL', function () {
       const result = await salesProductsModel.insert(infoSold);
 
       expect(result).to.equal(1);
+    })
+  })
+  describe('updateById (altera informações de uma venda cadastrada)', function () {
+    it('é possível atualizar as informações de uma venda com sucesso', async function () {
+      sinon.stub(connection, "execute").resolves(responseToUpdate);
+
+      const result = await salesProductsModel.updateById(
+        2,
+        { productId: 1, quantity: 30 },
+        { productId: 3, quantity: 15 }
+      );
+      expect(result.affectedRows).to.be.equal(1);
     })
   })
 })

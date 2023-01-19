@@ -1,5 +1,4 @@
 const camelize = require('camelize');
-const { salesServices } = require('.');
 const model = require('../models');
 
 const { saleIsValid, validateIdSale } = require('./validations/sales.validation');
