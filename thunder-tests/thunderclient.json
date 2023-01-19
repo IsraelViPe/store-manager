@@ -145,13 +145,18 @@
     "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
     "containerId": "",
     "name": "update(SALE)",
-    "url": "{{localhost}}/sales/2",
+    "url": "{{localhost}}/sales/1",
     "method": "PUT",
     "sortNum": 110000,
     "created": "2023-01-18T19:30:14.833Z",
-    "modified": "2023-01-18T19:30:39.734Z",
+    "modified": "2023-01-19T03:17:31.044Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 10\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 50\n  }\n]",
+      "form": []
+    },
     "tests": []
   }
 ]

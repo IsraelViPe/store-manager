@@ -11,6 +11,9 @@ const {
   salesList,
   responseFindSaleById,
   deleteResponse,
+  updatedSale,
+  updateResponse,
+  infoToUpdateSale
 } = require("./servicesMocks");
 
 
@@ -101,4 +104,28 @@ describe('SALES SERVICE', function () {
     //    expect(result.message).to.be.equal("");
     //  });
    });
+  describe("Validando a atualização das informaçoes de uma venda", function () {
+    it("falha ao tentar atualizar uma venda não existente no banco", async function () {
+      sinon.stub(salesModel, 'findById').resolves(undefined);
+
+      const result = await salesServices.updateById(9999, infoToUpdateSale);
+
+      expect(result.type).to.be.equal('NOT_FOUND');
+      expect(result.message).to.be.equal("Sale not found");
+    });
+    it("é possível atualizar uma venda com sucesso", async function () {
+      sinon.stub(salesProductsModel, "findById").resolves(correctSaleInsert);
+      sinon
+        .stub(salesProductsModel, "updateById")
+        .onFirstCall()
+        .resolves(updateResponse)
+        .onSecondCall()
+        .resolves(updateResponse);
+
+      const result = await salesServices.updateById(1, infoToUpdateSale);
+
+      expect(result.type).to.be.equal(null);
+      expect(result.message).to.be.deep.equal(updatedSale);
+    });
+  });
 });

@@ -48,9 +48,31 @@ const deleteById = async (saleId) => {
   return { type: null, message: '' };
 };
 
+const updateById = async (saleId, infoToUpdate) => {
+  const error = await validateIdSale(saleId);
+  if (error.type) return error;
+
+  const infoToSelect = await model.salesProductsModel.findById(saleId);
+
+  if (infoToSelect) {
+    await Promise.all(infoToUpdate.map(
+      async (info, index) => model.salesProductsModel
+        .updateById(saleId, info, camelize(infoToSelect[index])),
+    ));
+  } else {
+  return { type: 'INTERNAL_SERVER_ERROR', message: 'internal server error' };
+  }
+  const response = {
+    saleId,
+    itemsUpdated: infoToUpdate,
+  };
+  return { type: null, message: response };
+};
+
 module.exports = {
   createSale,
   findAll,
   findById,
   deleteById,
+  updateById,
 };
