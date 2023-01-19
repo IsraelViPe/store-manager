@@ -107,6 +107,31 @@ const updatedProduct = {
   name: "Martelo do Batman",
 };
 
+const infoToUpdateSale = [
+  {
+    productId: 1,
+    quantity: 10,
+  },
+  {
+    productId: 2,
+    quantity: 50,
+  },
+];
+
+const updateSaleResponse = {
+  saleId: 1,
+  itemsUpdated: [
+    {
+      productId: 1,
+      quantity: 10,
+    },
+    {
+      productId: 2,
+      quantity: 50,
+    },
+  ],
+};
+
 
 module.exports = {
   productsList,
@@ -118,5 +143,7 @@ module.exports = {
   createSaleBodyWrongQuantity,
   salesList,
   responseFindSaleById,
-  updatedProduct
+  updatedProduct,
+  infoToUpdateSale,
+  updateSaleResponse,
 };

@@ -12,7 +12,8 @@ const { createSaleBody, correctResponseCreateSale,
   createSaleBodyMissingProductId,
   createSaleBodyMissingQuantity,
   createSaleBodyWrongQuantity,
-  salesList, responseFindSaleById} = require("./controller.mock");
+  salesList, responseFindSaleById,
+infoToUpdateSale, updateSaleResponse} = require("./controller.mock");
 
 
 describe('SALES CONTROLLER', function () {
@@ -172,6 +173,38 @@ describe('SALES CONTROLLER', function () {
 
        expect(res.status).to.have.been.calledWith(204);
      });
+  })
+  describe('Rota PUT /sales/:id (atualiza informações de uma venda)', function () {
+    it('deve falhar ao tentar atualizar uma venda inexistente', async function () {
+       const res = {};
+       const req = { params: { id: 9999 }, body: infoToUpdateSale };
+
+       res.status = sinon.stub().returns(res);
+       res.json = sinon.stub().returns();
+       sinon
+         .stub(salesServices, "updateById")
+         .resolves({ type: 'NOT_FOUND', message: 'Sale not found' });
+
+       await salesController.updateById(req, res);
+
+       expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+    it('é possível atualizar uma venda com sucesso', async function () {
+      const res = {};
+      const req = { params: { id: 1 }, body: infoToUpdateSale };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(salesServices, 'updateById')
+        .resolves({ type: null, message:  updateSaleResponse});
+
+      await salesController.updateById(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(updateSaleResponse);
+    });
   })
 
 })
