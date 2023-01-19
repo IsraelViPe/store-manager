@@ -2,7 +2,6 @@ const express = require('express');
 // const camelize = require('camelize');
 const { productsController, salesController } = require('./controllers');
 const validateCreateSale = require('./middlewares/validateCreateSale');
-const { salesModel } = require('./models');
 
 const app = express();
 
