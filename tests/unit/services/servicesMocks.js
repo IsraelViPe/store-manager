@@ -32,13 +32,27 @@ const correctSaleInsert = [
 const infoToUpdateSale = [
   {
     productId: 1,
-    quantity: 20,
+    quantity: 10,
   },
   {
     productId: 2,
     quantity: 50,
   },
 ];
+
+const updatedSale = {
+  "saleId": 1,
+  "itemsUpdated": [
+    {
+      "productId": 1,
+      "quantity": 10
+    },
+    {
+      "productId": 2,
+      "quantity": 50
+    }
+  ]
+}
 
 const incorrectSaleInsert = [
   {
@@ -133,5 +147,6 @@ module.exports = {
   updatedProduct,
   deleteResponse,
   updateResponse,
-  infoToUpdateSale
+  infoToUpdateSale,
+  updatedSale
 };

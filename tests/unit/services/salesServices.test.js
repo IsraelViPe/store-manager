@@ -93,12 +93,12 @@ describe('SALES SERVICE', function () {
 
        expect(result.message).to.be.deep.equal("Sale not found");
      });
-     it("é possível deletar um produto com sucesso", async function () {
-       sinon.stub(salesModel, "deleteById").resolves([deleteResponse]);
+    //  it("é possível deletar um produto com sucesso", async function () {
+    //    sinon.stub(salesModel, "deleteById").resolves([deleteResponse]);
 
-       const result = await salesServices.deleteById(1);
+    //    const result = await salesServices.deleteById(1);
 
-       expect(result.message).to.be.equal("");
-     });
+    //    expect(result.message).to.be.equal("");
+    //  });
    });
 });

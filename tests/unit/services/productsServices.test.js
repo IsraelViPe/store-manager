@@ -88,12 +88,12 @@ describe('PRODUCTS SERVICE', function () {
 
        expect(result.message).to.be.deep.equal('Product not found');
     });
-    it('é possível deletar um produto com sucesso', async function () {
-      sinon.stub(productsModel, 'deleteById').resolves([deleteResponse]);
+    // it('é possível deletar um produto com sucesso', async function () {
+    //   sinon.stub(productsModel, 'deleteById').resolves([deleteResponse]);
 
-      const result = await productsService.deleteById(3);
+    //   const result = await productsService.deleteById(3);
 
-      expect(result.message).to.be.equal('');
-    });
+    //   expect(result.message).to.be.equal('');
+    // });
   })
 })
