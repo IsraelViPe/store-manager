@@ -5,7 +5,7 @@ const sinonChai = require("sinon-chai");
 
 chai.use(sinonChai);
 
-const validateCreateSale = require('../../../src/middlewares/validateCreateSale');
+const validateCreateSale = require('../../../src/middlewares/validateInputSale');
 const {  salesServices } = require("../../../src/services");
 const { salesController } = require("../../../src/controllers");
 const { createSaleBody, correctResponseCreateSale,
