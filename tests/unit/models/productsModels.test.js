@@ -54,7 +54,7 @@ describe('PRODUCTS MODEL', function () {
        expect(result.affectedRows).to.be.equal(1);
     })
   });
-  describe.only('searchByQuery', function () {
+  describe('searchByQuery', function () {
     it('é possível buscar um produto pelo name', async function () {
       sinon.stub(connection, 'execute').resolves(responseSearchByQuery);
 

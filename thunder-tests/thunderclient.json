@@ -164,16 +164,16 @@
     "colId": "c62f69d0-0e15-47f7-a7b7-d12530f4eeeb",
     "containerId": "",
     "name": "search(NAME)",
-    "url": "{{localhost}}/products/search?q=Martelo",
+    "url": "{{localhost}}/products/search?q=",
     "method": "GET",
     "sortNum": 120000,
     "created": "2023-01-19T13:29:34.441Z",
-    "modified": "2023-01-19T19:50:02.539Z",
+    "modified": "2023-01-19T20:14:13.667Z",
     "headers": [],
     "params": [
       {
         "name": "q",
-        "value": "Martelo",
+        "value": "",
         "isPath": false
       }
     ],

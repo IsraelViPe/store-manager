@@ -53,10 +53,19 @@ const deleteById = async (productId) => {
   return { type: null, message: '' };
 };
 
+const searchByQuery = async (query) => {
+  const response = await model.productsModel.searchByQuery(query);
+
+  if (!response) return { type: 'INTERNAL_SERVER_ERROR', message: 'internal server error' };
+
+  return { type: null, message: response };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   updateById,
   deleteById,
+  searchByQuery,
 };

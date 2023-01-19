@@ -1,8 +1,7 @@
 const express = require('express');
-// const camelize = require('camelize');
+
 const { productsController, salesController } = require('./controllers');
 const validateInputSale = require('./middlewares/validateInputSale');
-const { productsModel } = require('./models');
 
 const app = express();
 
@@ -13,12 +12,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.get('/products/search', async (req, res) => {
-  const { q } = req.query;
-  const result = await productsModel.searchByQuery(q);
-
-  res.status(200).json(result);
-});
+app.get('/products/search', productsController.searchByQuery);
 
 app.get('/products', productsController.findAll);
 
