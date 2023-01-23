@@ -2,7 +2,7 @@ version: "3"
 
 services:
   # Serviço que irá rodar o node
-  node:
+  backend:
     # Imagem base do container
     image: node:16.14
     # Nome do container para facilitar execução
@@ -16,12 +16,12 @@ services:
     # Restarta a imagem caso algo a faça parar
     restart: always
     # Diretório padrão de execução
-    working_dir: /home/node/app
+    working_dir: /app/backend
     # Lista de volumes (diretórios) mapeados de fora para dentro do container
     volumes:
       # Monta o diretório atual, com todos os dados do projeto, 
       # dentro do diretório /app
-      - ./:/home/node/app
+      - ./:/app/backend
     # Lista de serviços do qual este serviço depende
     depends_on:
       # Precisa do banco funcionando antes de subir o node
@@ -43,6 +43,16 @@ services:
       # Conecta esse serviço com a rede que criada
       - store_manager_net
 
+  frontend:
+    build: ./frontend
+    container_name: store_manager_front
+    ports:
+      - 3001:3001
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app/frontend   
+
   # Serviço que irá rodar o banco de dados
   db:
     container_name: store_manager_db
@@ -56,6 +66,8 @@ services:
     networks:
       # Conecta esse serviço com a rede que criada 
       - store_manager_net
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d         
 
 # Lista de redes que os containeres irão utilizar
 networks:
