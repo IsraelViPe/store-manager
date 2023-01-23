@@ -1,6 +1,6 @@
 FROM node:14-alpine
 
-WORKDIR /app/web
+WORKDIR /app/frontend
 
 COPY package*.json ./
 
