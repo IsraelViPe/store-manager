@@ -1,12 +1,11 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
+import StoreManager from './pages/StoreManager';
 
 function App() {
   return (
-    <Routes>
-    <Route exact path="/" component={ Login } />
-    </Routes>
+   <h1>Front End</h1>
   );
 }
 
