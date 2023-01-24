@@ -1,10 +1,12 @@
 import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import Login from './pages/Login';
 
 function App() {
   return (
-    <div>
-        <h1>Oi</h1>
-    </div>
+    <Routes>
+    <Route exact path="/" component={ Login } />
+    </Routes>
   );
 }
 
