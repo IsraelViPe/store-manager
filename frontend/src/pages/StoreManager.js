@@ -1,69 +1,115 @@
 import { useEffect, useState } from "react";
+import Loading from "../components/Loading";
+import ProductCard from "../components/ProductCard";
 import ProductsSearchForm from "../components/ProductsSearchForm";
+import SalesSearchForm from "../components/SalesSearchForm";
 import api from "../utils/api";
 
 export default function StoreManager () {
 
-  const [productName, setProductName] = useState('');
-  const [productId, setProductId] = useState('');
+  const [InputProduct, setInputProduct] = useState('');
   const [saleId, setSaleId] = useState('');
-  const [products, setProducts] = useState([]);
-  const [fetch, setFetch] = useState({ request: false });
+  const [productsList, setProductsList] = useState([]);
+  const [salesList, setSalesList] = useState([]);
+  const [fetchInfo, setFetchInfo] = useState({ request: false });
+  const [Error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect( () => {
-    if(fetch.request === true ) {
-    fetchApi(fetch)
+    if(fetchInfo.request === true ) {
+      setIsLoading(true);
+    fetchProducts(fetchInfo)
     }
-  }, [fetch])
+  }, [fetchInfo])
 
-  const fetchApi = async (info) => {
+  const fetchProducts = async (info) => {
     switch (info.method) {
-      case 'get':
-        return await api.get(info.route).then( response => setProducts(response.data))
+      case 'get':{
+         try {
+          const { data } = await api.get(info.route)
+          setError(null);
+          if (info.route.includes('products')) {
+            data.length ? setProductsList(data) : setProductsList([data])
+          }
+          if (info.route.includes('sales')) {
+            data.length ? setSalesList(data) : setSalesList([data])
+          }
+        } catch (error) {
+          setError('Produto não encontrado')
+        } finally {
+          setIsLoading(false);
+          return
+        }
+      }
+      case 'post': {
+        return true
+      }
+      case 'put': {
+        return true
+      }
+      case 'delete': {
+        return true
+      }
       default:
         return
     }
   }
 
-  console.log(products)
+  console.log(productsList);
+  console.log(salesList)
 
   const handleChange = ({ target: { name, value }}) => {
-    if(name === 'productName') {
-      setProductName(value)
-    } else if (name === 'productId') {
-      setProductId(value);
+    if(name === 'InputProduct') {
+      setInputProduct(value)
     } else if (name === 'saleId') {
       setSaleId(value);
     }
   }
 
 
-
   const searchProducts = () => {
-
-   if(productId ) {
-    setFetch({request: true, route: `/products/${productId}`, method: 'get'})
-   } else if (productName) {
-    setFetch({request: true, route: `/products/q=${productName}`, method: 'get'})
+   if(!isNaN(Number(InputProduct))) {
+    setFetchInfo({request: true, route: `/products/${InputProduct}`, method: 'get'})
+   } else if (InputProduct) {
+    setFetchInfo({request: true, route: `/products/search?q=${InputProduct}`, method: 'get'})
    } else {
-     setFetch({ request: true , route: '/products', method: 'get'});
+     setFetchInfo({ request: true , route: '/products', method: 'get'});
    }
-
   }
+
+  const searchSales = () => {
+    if(!saleId) {
+      setFetchInfo({ request: true, route: '/sales', method: 'get'})
+      return;
+    }
+    return setFetchInfo({ request: true, route: `/sales/${saleId}`, method: 'get'})
+  }
+
+  console.log(fetchInfo);
 
   return (
     <main>
+      {isLoading && <Loading />}
       <h1>Store Manager</h1>
       <section>
         <h2>Produtos</h2>
+
         <ProductsSearchForm
         handleChange={ handleChange }
-        productId={productId}
-        productName={productName}
+        InputProduct={InputProduct}
         searchProducts={searchProducts} />
+
+        {Error && <h2>{Error}</h2>}
+        { productsList.map((product) => (
+        <ProductCard name={product.name} id={product.id} />
+        ))}
+
       </section>
       <section>
         <h2>Vendas</h2>
+
+          <SalesSearchForm saleId={saleId} handleChange={handleChange} searchSales={ searchSales } />
+
       </section>
     </main>
   )

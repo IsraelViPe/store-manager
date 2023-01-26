@@ -1,24 +1,16 @@
 
 
-export default function ProductsSearchForm ({handleChange, ProductName, ProductId, searchProducts}) {
+export default function ProductsSearchForm ({handleChange, InputProduct, searchProducts}) {
   return (
     <form>
       <label>
         <input
         type="text"
-        name="productName"
-        placeholder="Digite o nome do Produto"
-        value={ProductName}
+        name="InputProduct"
+        placeholder="Nome do Produto ou Código"
+        value={InputProduct}
         onChange={ handleChange }
         />
-      </label>
-      <label>
-        <input
-        type="number"
-        name="productId"
-        placeholder="Digite o código numérico"
-        value={ProductId}
-        onChange={ handleChange }/>
       </label>
       <button
       type="button"
