@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import ProductCard from "../components/ProductCard";
-import ProductsSearchForm from "../components/ProductsSearchForm";
-import SalesSearchForm from "../components/SalesSearchForm";
+import SaleCard from "../components/SaleCard";
+import SearchForm from "../components/SearchForm";
 import api from "../utils/api";
 
 export default function StoreManager () {
@@ -35,7 +35,7 @@ export default function StoreManager () {
             data.length ? setSalesList(data) : setSalesList([data])
           }
         } catch (error) {
-          setError('Produto não encontrado')
+          setError('Item não encontrado')
         } finally {
           setIsLoading(false);
           return
@@ -48,15 +48,21 @@ export default function StoreManager () {
         return true
       }
       case 'delete': {
-        return true
+        try {
+          await api.delete(info.route)
+          setError(null);
+          info.route.includes('products') ? setProductsList([]) : setSalesList([])
+        } catch (error) {
+          setError(error.message)
+        } finally {
+          setIsLoading(false);
+          return
+        }
       }
       default:
         return
     }
   }
-
-  console.log(productsList);
-  console.log(salesList)
 
   const handleChange = ({ target: { name, value }}) => {
     if(name === 'InputProduct') {
@@ -85,7 +91,11 @@ export default function StoreManager () {
     return setFetchInfo({ request: true, route: `/sales/${saleId}`, method: 'get'})
   }
 
-  console.log(fetchInfo);
+  const handleDelete = ({target:{id}}) => {
+    if(window.confirm('Ao cliclar em OK esse item será excluído do Bando de Dados')) {
+      setFetchInfo({ request: true , route: id, method: 'delete'});
+    }
+  }
 
   return (
     <main>
@@ -94,21 +104,48 @@ export default function StoreManager () {
       <section>
         <h2>Produtos</h2>
 
-        <ProductsSearchForm
+        <SearchForm
         handleChange={ handleChange }
-        InputProduct={InputProduct}
-        searchProducts={searchProducts} />
+        InputValue={InputProduct}
+        onClick={searchProducts}
+        InputType={'text'}
+        placeHolder={'Nome ou código de produto'}
+        name={'InputProduct'} />
 
         {Error && <h2>{Error}</h2>}
-        { productsList.map((product) => (
-        <ProductCard name={product.name} id={product.id} />
+        {!Error && productsList.map((product, index) => (
+        <ProductCard
+        key={ index }
+        name={product.name}
+        id={`/products/${product.id}`}
+        deleteProduct={handleDelete}
+        />
         ))}
 
       </section>
       <section>
         <h2>Vendas</h2>
 
-          <SalesSearchForm saleId={saleId} handleChange={handleChange} searchSales={ searchSales } />
+        <SearchForm
+        handleChange={ handleChange }
+        InputValue={saleId}
+        onClick={searchSales }
+        InputType={'number'}
+        placeHolder={'informe o codigó da venda'}
+        name={'saleId'} />
+
+        {!Error && salesList.map((sale, index) => (
+          <SaleCard
+          key={index}
+          saleId={sale.saleId}
+          id={`/sales/${saleId}`}
+          date={sale.date}
+          productId={sale.productId}
+          quantity={sale.quantity}
+          updateProduct={() => {}}
+          deleteProduct={handleDelete}
+          />
+        ))}
 
       </section>
     </main>
