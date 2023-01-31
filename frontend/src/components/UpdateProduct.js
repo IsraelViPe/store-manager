@@ -1,4 +1,4 @@
-export default function UpdateProduct ({product, handleChange, inputProduct, handleRequestUpdate}) {
+export default function UpdateProduct ({product, handleChangeUpdate, updateNameProduct, clickRequestUpdate}) {
 
   return (
     <form>
@@ -7,14 +7,16 @@ export default function UpdateProduct ({product, handleChange, inputProduct, han
         <input
         type="text"
         name='inputProduct'
-        value={inputProduct}
+        value={updateNameProduct}
         placeholder={product.name}
-        onChange={ handleChange }/>
+        onChange={ handleChangeUpdate }/>
       </label>
 
       <button
       type="button"
-      onClick={handleRequestUpdate}>
+      name="updateProduct"
+      id={product.id}
+      onClick={clickRequestUpdate}>
         Salvar Alteração
       </button>
 

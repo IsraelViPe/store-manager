@@ -13,10 +13,10 @@ export default function StoreManager () {
   const [productsList, setProductsList] = useState([]);
   const [salesList, setSalesList] = useState([]);
   const [updateProduct, setUpdateProduct] = useState(false);
+  const [updateSale, setUpdateSale] = useState(false);
   const [updateNameProduct, setUpdateNameProduct] = useState('');
   const [updateIdProduct, setUpdateIdProduct] = useState('');
   const [updateProductQuantit, setProductQuantity] = useState('');
-  const [updateSale, setUpdateSale] = useState(false);
   const [Error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -74,10 +74,29 @@ export default function StoreManager () {
     }
   }
 
-  const clickUpdate = ({target:{name}}) => {
-    name  === 'updateProduct' ? setUpdateProduct(true):
-    setUpdateSale(true)
+  const clickUpdate = async ({target:{name, id}}) => {
+    if(!updateProduct && !updateSale) {
+      name  === 'updateProduct' ? setUpdateProduct(true):
+      setUpdateSale(true)
+      return
+    }
+
+    if(name === 'updateProduct') {
+      const infoToUpdate = { name : updateNameProduct }
+      try {
+        await api.put(`/products/${id}`, infoToUpdate)
+        setError(null);
+      } catch(e) {
+        console.log(e)
+        setError(JSON.parse(e.request.responseText).message)
+      } finally {
+        setUpdateProduct(false);
+        return
+      }
+    }
+
   }
+
 
   console.log(salesList);
   console.log(productsList);
@@ -116,8 +135,9 @@ export default function StoreManager () {
 
         {updateProduct && <UpdateProduct
         product={productsList[0]}
-        handleChange={handleChangeUpdate}
-        inputProduct={updateNameProduct}
+        handleChangeUpdate={handleChangeUpdate}
+        updateNameProduct={updateNameProduct}
+        clickRequestUpdate={clickUpdate}
         />}
 
         {updateProduct || Error || productsList.map((product, index) => (
