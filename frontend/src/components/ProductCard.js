@@ -1,22 +1,25 @@
-export default function  ProductCard ({name, id, updateProduct, deleteProduct }) {
+export default function  ProductCard ({name, idUpdate, idDelete, updateProduct, deleteProduct, showDelete, id }) {
   return (
     <div>
       <div>
-        <h3>{name}</h3>
+        <h4>Cod: {id}</h4>
+        <p>{name}</p>
       </div>
-      <button
+    { showDelete && <> <button
       type="button"
-      id={id}
+      id={idUpdate}
+      name="updateProduct"
       onClick={ updateProduct }>
         Editar
       </button>
 
       <button
       type="button"
-      id={id}
+      id={idDelete}
       onClick={ deleteProduct }>
         Deletar
       </button>
+      </> }
     </div>
   )
 }

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loading from "../components/Loading";
 import ProductCard from "../components/ProductCard";
 import SaleCard from "../components/SaleCard";
 import SearchForm from "../components/SearchForm";
+import UpdateProduct from "../components/UpdateProduct";
 import api from "../utils/api";
 
 export default function StoreManager () {
@@ -11,58 +12,13 @@ export default function StoreManager () {
   const [saleId, setSaleId] = useState('');
   const [productsList, setProductsList] = useState([]);
   const [salesList, setSalesList] = useState([]);
-  const [fetchInfo, setFetchInfo] = useState({ request: false });
+  const [updateProduct, setUpdateProduct] = useState(false);
+  const [updateNameProduct, setUpdateNameProduct] = useState('');
+  const [updateIdProduct, setUpdateIdProduct] = useState('');
+  const [updateProductQuantit, setProductQuantity] = useState('');
+  const [updateSale, setUpdateSale] = useState(false);
   const [Error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect( () => {
-    if(fetchInfo.request === true ) {
-      setIsLoading(true);
-    fetchProducts(fetchInfo)
-    }
-  }, [fetchInfo])
-
-  const fetchProducts = async (info) => {
-    switch (info.method) {
-      case 'get':{
-         try {
-          const { data } = await api.get(info.route)
-          setError(null);
-          if (info.route.includes('products')) {
-            data.length ? setProductsList(data) : setProductsList([data])
-          }
-          if (info.route.includes('sales')) {
-            data.length ? setSalesList(data) : setSalesList([data])
-          }
-        } catch (error) {
-          setError('Item não encontrado')
-        } finally {
-          setIsLoading(false);
-          return
-        }
-      }
-      case 'post': {
-        return true
-      }
-      case 'put': {
-        return true
-      }
-      case 'delete': {
-        try {
-          await api.delete(info.route)
-          setError(null);
-          info.route.includes('products') ? setProductsList([]) : setSalesList([])
-        } catch (error) {
-          setError(error.message)
-        } finally {
-          setIsLoading(false);
-          return
-        }
-      }
-      default:
-        return
-    }
-  }
 
   const handleChange = ({ target: { name, value }}) => {
     if(name === 'InputProduct') {
@@ -72,28 +28,72 @@ export default function StoreManager () {
     }
   }
 
-
-  const searchProducts = () => {
-   if(!isNaN(Number(InputProduct))) {
-    setFetchInfo({request: true, route: `/products/${InputProduct}`, method: 'get'})
-   } else if (InputProduct) {
-    setFetchInfo({request: true, route: `/products/search?q=${InputProduct}`, method: 'get'})
-   } else {
-     setFetchInfo({ request: true , route: '/products', method: 'get'});
-   }
-  }
-
-  const searchSales = () => {
-    if(!saleId) {
-      setFetchInfo({ request: true, route: '/sales', method: 'get'})
-      return;
+  const handleChangeUpdate = ({ target: { name, value }}) => {
+    if(name === 'inputProduct') {
+      setUpdateNameProduct(value)
+    } else if (name === 'productId') {
+      setUpdateIdProduct(value)
+    } else if (name === 'productQuantity') {
+      setProductQuantity(value)
     }
-    return setFetchInfo({ request: true, route: `/sales/${saleId}`, method: 'get'})
   }
 
-  const handleDelete = ({target:{id}}) => {
+
+  const getProducts = async () => {
+    try {
+      setIsLoading(true);
+      if (isNaN(Number(InputProduct))) {
+        const { data } = await api.get(`/products/search?q=${InputProduct}`)
+        setError(null);
+        data.length ? setProductsList(data) : setProductsList([data])
+        return;
+      }
+      const { data } = await api.get(`/products/${InputProduct}`)
+      setError(null);
+      data.length ? setProductsList(data) : setProductsList([data])
+    } catch (error) {
+      setError(JSON.parse(error.request.responseText).message)
+    } finally {
+      setIsLoading(false);
+      return
+    }
+  }
+
+  const getSales = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await api.get(`/sales/${saleId}`)
+      setError(null);
+      data.length ? setSalesList(data) : setSalesList([data])
+    } catch (error) {
+      console.log(error)
+      setError(JSON.parse(error.request.responseText).message)
+    } finally {
+      setIsLoading(false);
+      return
+    }
+  }
+
+  const clickUpdate = ({target:{name}}) => {
+    name  === 'updateProduct' ? setUpdateProduct(true):
+    setUpdateSale(true)
+  }
+
+  console.log(salesList);
+  console.log(productsList);
+  console.log(updateProduct);
+
+  const handleDelete = async ({target:{id}}) => {
     if(window.confirm('Ao cliclar em OK esse item será excluído do Bando de Dados')) {
-      setFetchInfo({ request: true , route: id, method: 'delete'});
+      try {
+        setIsLoading(true);
+        await api.delete(id);
+      } catch (error) {
+        setError(JSON.parse(error.request.responseText).message)
+      } finally {
+        setIsLoading(false);
+        return
+      }
     }
   }
 
@@ -107,18 +107,29 @@ export default function StoreManager () {
         <SearchForm
         handleChange={ handleChange }
         InputValue={InputProduct}
-        onClick={searchProducts}
+        onClick={getProducts}
         InputType={'text'}
         placeHolder={'Nome ou código de produto'}
         name={'InputProduct'} />
 
         {Error && <h2>{Error}</h2>}
-        {!Error && productsList.map((product, index) => (
+
+        {updateProduct && <UpdateProduct
+        product={productsList[0]}
+        handleChange={handleChangeUpdate}
+        inputProduct={updateNameProduct}
+        />}
+
+        {updateProduct || Error || productsList.map((product, index) => (
         <ProductCard
         key={ index }
         name={product.name}
-        id={`/products/${product.id}`}
+        id={product.id}
+        idDelete={`/products/${product.id}`}
+        idUpdate={product.id}
+        updateProduct={ clickUpdate }
         deleteProduct={handleDelete}
+        showDelete={productsList.length === 1}
         />
         ))}
 
@@ -129,21 +140,23 @@ export default function StoreManager () {
         <SearchForm
         handleChange={ handleChange }
         InputValue={saleId}
-        onClick={searchSales }
+        onClick={getSales }
         InputType={'number'}
         placeHolder={'informe o codigó da venda'}
         name={'saleId'} />
+
 
         {!Error && salesList.map((sale, index) => (
           <SaleCard
           key={index}
           saleId={sale.saleId}
-          id={`/sales/${saleId}`}
+          idDelete={`/sales/${saleId}`}
+          idUpdate={saleId}
           date={sale.date}
           productId={sale.productId}
           quantity={sale.quantity}
-          updateProduct={() => {}}
-          deleteProduct={handleDelete}
+          updateSale={ clickUpdate }
+          deleteSale={handleDelete}
           />
         ))}
 

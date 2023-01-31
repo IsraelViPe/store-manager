@@ -1,8 +1,8 @@
-export default function  SaleCard ({saleId, id, date, productId, quantity, updateProduct, deleteProduct }) {
+export default function  SaleCard ({saleId, idUpdate, idDelete, date, productId, quantity, updateSale, deleteSale }) {
   return (
     <div>
       <div>
-        <h3> { saleId && `Código de venda: ${saleId }`}</h3>
+        <h4> { saleId && `Cod: ${saleId }`}</h4>
         <ul>
           <li>{`Data: ${new Date(date).toLocaleString()}`}</li>
           <li>{`Código do produto: ${productId}`}</li>
@@ -11,15 +11,16 @@ export default function  SaleCard ({saleId, id, date, productId, quantity, updat
       </div>
      { !saleId && <button
       type="button"
-      id={id}
-      onClick={ updateProduct }>
+      id={idUpdate}
+      name="updateSale"
+      onClick={ updateSale }>
         Editar
       </button>}
 
       {!saleId && <button
       type="button"
-      id={id}
-      onClick={ deleteProduct }>
+      id={idDelete}
+      onClick={ deleteSale }>
         Deletar
       </button>}
     </div>
