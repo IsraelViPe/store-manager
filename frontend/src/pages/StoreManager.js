@@ -3,7 +3,6 @@ import Loading from "../components/Loading";
 import ProductCard from "../components/ProductCard";
 import SaleCard from "../components/SaleCard";
 import SearchForm from "../components/SearchForm";
-import UpdateProduct from "../components/UpdateProduct";
 import api from "../utils/api";
 
 export default function StoreManager () {
@@ -12,8 +11,7 @@ export default function StoreManager () {
   const [saleId, setSaleId] = useState('');
   const [productsList, setProductsList] = useState([]);
   const [salesList, setSalesList] = useState([]);
-  const [updateProduct, setUpdateProduct] = useState(false);
-  const [updateSale, setUpdateSale] = useState(false);
+  const [showUpdate, setShowUpdate] = useState('false');
   const [updateNameProduct, setUpdateNameProduct] = useState('');
   const [updateIdProduct, setUpdateIdProduct] = useState('');
   const [updateProductQuantit, setProductQuantity] = useState('');
@@ -75,13 +73,10 @@ export default function StoreManager () {
   }
 
   const clickUpdate = async ({target:{name, id}}) => {
-    if(!updateProduct && !updateSale) {
-      name  === 'updateProduct' ? setUpdateProduct(true):
-      setUpdateSale(true)
-      return
-    }
-
+   setShowUpdate(true)
+   
     if(name === 'updateProduct') {
+      console.log(name)
       const infoToUpdate = { name : updateNameProduct }
       try {
         await api.put(`/products/${id}`, infoToUpdate)
@@ -90,17 +85,17 @@ export default function StoreManager () {
         console.log(e)
         setError(JSON.parse(e.request.responseText).message)
       } finally {
-        setUpdateProduct(false);
+        setShowUpdate(false);
         return
       }
     }
 
   }
 
-
+  console.log(showUpdate);
   console.log(salesList);
   console.log(productsList);
-  console.log(updateProduct);
+  console.log(showUpdate);
 
   const handleDelete = async ({target:{id}}) => {
     if(window.confirm('Ao cliclar em OK esse item será excluído do Bando de Dados')) {
@@ -133,22 +128,24 @@ export default function StoreManager () {
 
         {Error && <h2>{Error}</h2>}
 
-        {updateProduct && <UpdateProduct
+        {/* {updateProduct && <UpdateProduct
         product={productsList[0]}
         handleChangeUpdate={handleChangeUpdate}
         updateNameProduct={updateNameProduct}
         clickRequestUpdate={clickUpdate}
-        />}
+        />} */}
 
-        {updateProduct || Error || productsList.map((product, index) => (
+        { Error || productsList.map((product, index) => (
         <ProductCard
         key={ index }
         name={product.name}
         id={product.id}
         idDelete={`/products/${product.id}`}
-        idUpdate={product.id}
         updateProduct={ clickUpdate }
         deleteProduct={handleDelete}
+        handleChangeUpdate={ handleChangeUpdate }
+        updateNameProduct={updateNameProduct}
+        showUpdateMode={ showUpdate } 
         showDelete={productsList.length === 1}
         />
         ))}

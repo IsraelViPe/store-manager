@@ -1,5 +1,26 @@
-export default function  ProductCard ({name, idUpdate, idDelete, updateProduct, deleteProduct, showDelete, id }) {
-  return (
+export default function  ProductCard ({name, idDelete, updateProduct, deleteProduct, showDelete, id, updateNameProduct, handleChangeUpdate, showUpdateMode }) {
+ 
+ return (
+  <div>  
+   { showUpdateMode ? (
+   <div>
+      <h4>Cod: {id}</h4>
+      <input
+        type="text"
+        name='inputProduct'
+        value={updateNameProduct}
+        placeholder={name}
+        onChange={ handleChangeUpdate }/>
+
+      <button
+      type="button"
+      name="updateProduct"
+      id={id}
+      onClick={updateProduct}>
+        Salvar Alteração
+      </button>
+    </div>  
+  ):(
     <div>
       <div>
         <h4>Cod: {id}</h4>
@@ -7,8 +28,8 @@ export default function  ProductCard ({name, idUpdate, idDelete, updateProduct, 
       </div>
     { showDelete && <> <button
       type="button"
-      id={idUpdate}
-      name="updateProduct"
+      id={id}
+      name="requestUpdate"
       onClick={ updateProduct }>
         Editar
       </button>
@@ -21,5 +42,7 @@ export default function  ProductCard ({name, idUpdate, idDelete, updateProduct, 
       </button>
       </> }
     </div>
+    )}
+  </div>
   )
 }
