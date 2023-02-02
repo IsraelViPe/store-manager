@@ -11,7 +11,7 @@ export default function StoreManager () {
   const [saleId, setSaleId] = useState('');
   const [productsList, setProductsList] = useState([]);
   const [salesList, setSalesList] = useState([]);
-  const [showUpdate, setShowUpdate] = useState('false');
+  const [showUpdate, setShowUpdate] = useState(false);
   const [updateNameProduct, setUpdateNameProduct] = useState('');
   const [updateIdProduct, setUpdateIdProduct] = useState('');
   const [updateProductQuantit, setProductQuantity] = useState('');
@@ -76,11 +76,11 @@ export default function StoreManager () {
    setShowUpdate(true)
    
     if(name === 'updateProduct') {
-      console.log(name)
       const infoToUpdate = { name : updateNameProduct }
       try {
-        await api.put(`/products/${id}`, infoToUpdate)
+        const { data } = await api.put(`/products/${id}`, infoToUpdate)
         setError(null);
+        setProductsList([data])
       } catch(e) {
         console.log(e)
         setError(JSON.parse(e.request.responseText).message)
@@ -89,6 +89,22 @@ export default function StoreManager () {
         return
       }
     }
+    // if(name === 'updateSale') {
+    //   const infoToUpdate = [
+
+    //   ]
+    //   try {
+    //     const { data } = await api.put(`/products/${id}`, infoToUpdate)
+    //     setError(null);
+    //     setProductsList([data])
+    //   } catch(e) {
+    //     console.log(e)
+    //     setError(JSON.parse(e.request.responseText).message)
+    //   } finally {
+    //     setShowUpdate(false);
+    //     return
+    //   }
+    // }
 
   }
 
@@ -127,13 +143,6 @@ export default function StoreManager () {
         name={'InputProduct'} />
 
         {Error && <h2>{Error}</h2>}
-
-        {/* {updateProduct && <UpdateProduct
-        product={productsList[0]}
-        handleChangeUpdate={handleChangeUpdate}
-        updateNameProduct={updateNameProduct}
-        clickRequestUpdate={clickUpdate}
-        />} */}
 
         { Error || productsList.map((product, index) => (
         <ProductCard
@@ -174,6 +183,11 @@ export default function StoreManager () {
           quantity={sale.quantity}
           updateSale={ clickUpdate }
           deleteSale={handleDelete}
+          showUpdate={ showUpdate}
+          updateIdProduct={updateIdProduct}
+          handleChangeUpdate={handleChangeUpdate}
+          updateProductQuantit={updateProductQuantit}
+          clickUpdate={clickUpdate}
           />
         ))}
 
@@ -181,3 +195,4 @@ export default function StoreManager () {
     </main>
   )
 }
+

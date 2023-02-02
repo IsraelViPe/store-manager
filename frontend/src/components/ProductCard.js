@@ -1,7 +1,7 @@
 export default function  ProductCard ({name, idDelete, updateProduct, deleteProduct, showDelete, id, updateNameProduct, handleChangeUpdate, showUpdateMode }) {
  
  return (
-  <div>  
+  <>  
    { showUpdateMode ? (
    <div>
       <h4>Cod: {id}</h4>
@@ -43,6 +43,6 @@ export default function  ProductCard ({name, idDelete, updateProduct, deleteProd
       </> }
     </div>
     )}
-  </div>
+  </>
   )
 }
