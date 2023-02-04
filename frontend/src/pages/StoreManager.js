@@ -3,6 +3,7 @@ import Loading from "../components/Loading";
 import ProductCard from "../components/ProductCard";
 import SaleCard from "../components/SaleCard";
 import SearchForm from "../components/SearchForm";
+import salesFormat from '../utils/handleData';
 import api from "../utils/api";
 
 export default function StoreManager () {
@@ -61,16 +62,18 @@ export default function StoreManager () {
     try {
       setIsLoading(true);
       const { data } = await api.get(`/sales/${saleId}`)
-      setError(null);
-      data.length ? setSalesList(data) : setSalesList([data])
+      const salesFormated = salesFormat(saleId, data) 
+      setError(null); 
+      setSalesList(salesFormated);
     } catch (error) {
-      console.log(error)
+      console.error(error)
       setError(JSON.parse(error.request.responseText).message)
     } finally {
       setIsLoading(false);
       return
     }
   }
+ 
 
   const clickUpdate = async ({target:{name, id}}) => {
    setShowUpdate(true)
@@ -81,37 +84,16 @@ export default function StoreManager () {
         const { data } = await api.put(`/products/${id}`, infoToUpdate)
         setError(null);
         setProductsList([data])
-      } catch(e) {
-        console.log(e)
-        setError(JSON.parse(e.request.responseText).message)
+      } catch(error) {
+        console.error(error)
+        setError(JSON.parse(error.request.responseText).message)
       } finally {
         setShowUpdate(false);
         return
       }
     }
-    // if(name === 'updateSale') {
-    //   const infoToUpdate = [
-
-    //   ]
-    //   try {
-    //     const { data } = await api.put(`/products/${id}`, infoToUpdate)
-    //     setError(null);
-    //     setProductsList([data])
-    //   } catch(e) {
-    //     console.log(e)
-    //     setError(JSON.parse(e.request.responseText).message)
-    //   } finally {
-    //     setShowUpdate(false);
-    //     return
-    //   }
-    // }
 
   }
-
-  console.log(showUpdate);
-  console.log(salesList);
-  console.log(productsList);
-  console.log(showUpdate);
 
   const handleDelete = async ({target:{id}}) => {
     if(window.confirm('Ao cliclar em OK esse item será excluído do Bando de Dados')) {
@@ -126,6 +108,8 @@ export default function StoreManager () {
       }
     }
   }
+
+  
 
   return (
     <main>
@@ -175,12 +159,13 @@ export default function StoreManager () {
         {!Error && salesList.map((sale, index) => (
           <SaleCard
           key={index}
-          saleId={sale.saleId}
+          sale={sale}
+          // saleId={sale.saleId}
           idDelete={`/sales/${saleId}`}
           idUpdate={saleId}
-          date={sale.date}
-          productId={sale.productId}
-          quantity={sale.quantity}
+          // date={sale.date}
+          // productId={sale.productId}
+          // quantity={sale.quantity}
           updateSale={ clickUpdate }
           deleteSale={handleDelete}
           showUpdate={ showUpdate}
