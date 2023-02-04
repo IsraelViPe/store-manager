@@ -5,6 +5,8 @@ import SaleCard from "../components/SaleCard";
 import SearchForm from "../components/SearchForm";
 import salesFormat from '../utils/handleData';
 import api from "../utils/api";
+import CreateProduct from "../components/CreateProduct";
+import CreateSale from "../components/CreateSale";
 
 export default function StoreManager () {
 
@@ -14,6 +16,8 @@ export default function StoreManager () {
   const [salesList, setSalesList] = useState([]);
   const [showUpdateProduct, setShowUpdateProduct] = useState(false);
   const [showUpdateSale, setShowUpdateSale] = useState(false)
+  const [showCreateProduct, setShowCreateProduct] = useState(false);
+  const [showCreateSale, setShowCreateSale] = useState(false);
   const [updateInput, setUpdateInput] = useState({});
   const [Error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,8 +30,7 @@ export default function StoreManager () {
     }
   }
 
-  const handleChangeUpdate = ({ target: { name, value, defaultValue }}) => { 
-    console.log(defaultValue);
+  const handleChangeUpdate = ({ target: { name, value }}) => { 
     setUpdateInput(values => ({...values, [name]: value }) )
   }
 
@@ -68,14 +71,11 @@ export default function StoreManager () {
       return
     }
   }
-  console.log(salesList);
 
   const clickUpdate = async ({target:{name, id}}) => {
-    console.log(id);
     name === 'requestUpdateProduct' ? setShowUpdateProduct(true) : setShowUpdateSale(true)
    
     if(name === 'updateProduct') {
-      console.log('aqui')
       const infoToUpdate = { name : updateInput.productName }
       try {
         const { data } = await api.put(`/products/${id}`, infoToUpdate)
@@ -90,7 +90,6 @@ export default function StoreManager () {
       }
     }
 
- 
 
     if( name === 'updateSale') {
       const infoToUpdate = salesList[0].products.map(({productId}) => ({
@@ -105,10 +104,11 @@ export default function StoreManager () {
         setShowUpdateSale(false);
         return
        }
-
-
     }
+  }
 
+  const clickCreate = ({target:{name}}) => {
+    name === 'createProduct' ? setShowCreateProduct(!showCreateProduct): setShowCreateSale(!showCreateSale)
   }
 
   const handleDelete = async ({target:{id}}) => {
@@ -142,6 +142,14 @@ export default function StoreManager () {
         placeHolder={'Nome ou código de produto'}
         name={'InputProduct'} />
 
+        <button
+        type="button"
+        name="createProduct"
+        onClick={ clickCreate }>
+          Adicionar Produto
+        </button>
+        {showCreateProduct && <CreateProduct />}
+
         {Error && <h2>{Error}</h2>}
 
         { Error || productsList.map((product, index) => (
@@ -171,6 +179,13 @@ export default function StoreManager () {
         placeHolder={'informe o codigó da venda'}
         name={'saleId'} />
 
+        <button
+        type="button"
+        name="createSale"
+        onClick={ clickCreate }>
+          Adicionar Venda
+        </button>
+        {showCreateSale && <CreateSale />}
 
         {!Error && salesList.map((sale, index) => (
           <SaleCard
