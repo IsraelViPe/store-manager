@@ -7,8 +7,8 @@ export default function  ProductCard ({name, idDelete, updateProduct, deleteProd
       <h4>Cod: {id}</h4>
       <input
         type="text"
-        name='inputProduct'
-        value={updateNameProduct}
+        name='productName'
+        value={updateNameProduct['productName'] }
         placeholder={name}
         onChange={ handleChangeUpdate }/>
 
@@ -29,7 +29,7 @@ export default function  ProductCard ({name, idDelete, updateProduct, deleteProd
     { showDelete && <> <button
       type="button"
       id={id}
-      name="requestUpdate"
+      name="requestUpdateProduct"
       onClick={ updateProduct }>
         Editar
       </button>

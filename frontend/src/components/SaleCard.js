@@ -1,8 +1,9 @@
 export default function  SaleCard ({ 
   sale, idUpdate, idDelete, 
-  updateSale, deleteSale, 
-  showUpdate, updateIdProduct, handleChangeUpdate, 
-  updateProductQuantit, clickUpdate }) {
+  updateSale, deleteSale,
+  updateInputSale, 
+  showUpdate, handleChangeUpdate, 
+  clickUpdate }) {
 
 
 const products = sale.products.map(({productId, quantity}) => (
@@ -14,20 +15,26 @@ const products = sale.products.map(({productId, quantity}) => (
 const editProducts = sale.products.map(({productId, quantity}) => (
   <ul key={productId}>
     <li>
-    <input
-    type="text"
-    name="productId"
-    value={updateIdProduct}
-    onChange={handleChangeUpdate}
-    placeholder={`cod. ${productId}`}/>
+    <label for="inputId">
+      {'cod '}
+      <input
+      type="text"
+      name={`${productId}-product`}
+      value={updateInputSale[`${productId}-product`]}
+      onChange={handleChangeUpdate}
+      placeholder={`cod. ${productId}`}/>
+    </label>
     </li>
     <li>
-    <input
-      type="text"
-      name="productQuantity"
-      value={updateProductQuantit}
-      onChange={handleChangeUpdate}
-      placeholder={`quant. ${quantity}`}/>
+    <label for="inputQuantity">
+      {'quant '}
+      <input
+        type="text"
+        name={`${productId}-quantity`}
+        value={updateInputSale[`${productId}-quantity`]}
+        onChange={handleChangeUpdate}
+        placeholder={`quant. ${quantity}`}/>
+    </label>
       </li>
   </ul>
 ))                    
@@ -42,6 +49,7 @@ const editProducts = sale.products.map(({productId, quantity}) => (
           <button
           type="button"
           name="updateSale"
+          id={idUpdate}
           onClick={clickUpdate}>
             Salvar Alterações
           </button>
@@ -56,7 +64,7 @@ const editProducts = sale.products.map(({productId, quantity}) => (
        { !sale.saleId && <button
         type="button"
         id={idUpdate}
-        name="updateSale"
+        name="requestUpdateSale"
         onClick={ updateSale }>
           Editar
         </button>}

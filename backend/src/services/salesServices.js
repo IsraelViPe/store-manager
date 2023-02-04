@@ -52,8 +52,8 @@ const updateById = async (saleId, infoToUpdate) => {
   let error = await validateIdSale(saleId);
   if (error.type) return error;
 
-   error = await saleIsValid(infoToUpdate);
-   if (error.type) return error;
+  error = await saleIsValid(infoToUpdate);
+  if (error.type) return error;
 
   const infoToSelect = await model.salesProductsModel.findById(saleId);
 

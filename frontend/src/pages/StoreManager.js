@@ -12,10 +12,9 @@ export default function StoreManager () {
   const [saleId, setSaleId] = useState('');
   const [productsList, setProductsList] = useState([]);
   const [salesList, setSalesList] = useState([]);
-  const [showUpdate, setShowUpdate] = useState(false);
-  const [updateNameProduct, setUpdateNameProduct] = useState('');
-  const [updateIdProduct, setUpdateIdProduct] = useState('');
-  const [updateProductQuantit, setProductQuantity] = useState('');
+  const [showUpdateProduct, setShowUpdateProduct] = useState(false);
+  const [showUpdateSale, setShowUpdateSale] = useState(false)
+  const [updateInput, setUpdateInput] = useState({});
   const [Error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,18 +26,14 @@ export default function StoreManager () {
     }
   }
 
-  const handleChangeUpdate = ({ target: { name, value }}) => {
-    if(name === 'inputProduct') {
-      setUpdateNameProduct(value)
-    } else if (name === 'productId') {
-      setUpdateIdProduct(value)
-    } else if (name === 'productQuantity') {
-      setProductQuantity(value)
-    }
+  const handleChangeUpdate = ({ target: { name, value, defaultValue }}) => { 
+    console.log(defaultValue);
+    setUpdateInput(values => ({...values, [name]: value }) )
   }
 
 
   const getProducts = async () => {
+    setShowUpdateProduct(false)
     try {
       setIsLoading(true);
       if (isNaN(Number(InputProduct))) {
@@ -73,13 +68,15 @@ export default function StoreManager () {
       return
     }
   }
- 
+  console.log(salesList);
 
   const clickUpdate = async ({target:{name, id}}) => {
-   setShowUpdate(true)
+    console.log(id);
+    name === 'requestUpdateProduct' ? setShowUpdateProduct(true) : setShowUpdateSale(true)
    
     if(name === 'updateProduct') {
-      const infoToUpdate = { name : updateNameProduct }
+      console.log('aqui')
+      const infoToUpdate = { name : updateInput.productName }
       try {
         const { data } = await api.put(`/products/${id}`, infoToUpdate)
         setError(null);
@@ -88,9 +85,28 @@ export default function StoreManager () {
         console.error(error)
         setError(JSON.parse(error.request.responseText).message)
       } finally {
-        setShowUpdate(false);
+        setShowUpdateProduct(false);
         return
       }
+    }
+
+ 
+
+    if( name === 'updateSale') {
+      const infoToUpdate = salesList[0].products.map(({productId}) => ({
+        productId : Number(updateInput[`${productId}-product`]), quantity : Number(updateInput[`${productId}-quantity`])}))
+       try {
+        const { data } = await api.put(`/sales/${id}`, infoToUpdate)
+        setError(null);
+       setSalesList((sale) => [{...sale[0], products: data.itemsUpdated}])
+       } catch(error) {
+        setError(JSON.parse(error.request.responseText).message)
+       } finally {
+        setShowUpdateSale(false);
+        return
+       }
+
+
     }
 
   }
@@ -137,8 +153,8 @@ export default function StoreManager () {
         updateProduct={ clickUpdate }
         deleteProduct={handleDelete}
         handleChangeUpdate={ handleChangeUpdate }
-        updateNameProduct={updateNameProduct}
-        showUpdateMode={ showUpdate } 
+        updateNameProduct={updateInput}
+        showUpdateMode={ showUpdateProduct } 
         showDelete={productsList.length === 1}
         />
         ))}
@@ -160,18 +176,13 @@ export default function StoreManager () {
           <SaleCard
           key={index}
           sale={sale}
-          // saleId={sale.saleId}
           idDelete={`/sales/${saleId}`}
           idUpdate={saleId}
-          // date={sale.date}
-          // productId={sale.productId}
-          // quantity={sale.quantity}
           updateSale={ clickUpdate }
           deleteSale={handleDelete}
-          showUpdate={ showUpdate}
-          updateIdProduct={updateIdProduct}
+          showUpdate={ showUpdateSale}
+          updateInputSale={ updateInput }
           handleChangeUpdate={handleChangeUpdate}
-          updateProductQuantit={updateProductQuantit}
           clickUpdate={clickUpdate}
           />
         ))}
