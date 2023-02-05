@@ -21,6 +21,7 @@ export default function StoreManager () {
   const [updateInput, setUpdateInput] = useState({});
   const [Error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [createOrderList, setCreateOrderList] = useState([]);
 
   const handleChange = ({ target: { name, value }}) => {
     if(name === 'InputProduct') {
@@ -29,6 +30,7 @@ export default function StoreManager () {
       setSaleId(value);
     }
   }
+
 
   const handleChangeUpdate = ({ target: { name, value }}) => { 
     setUpdateInput(values => ({...values, [name]: value }) )
@@ -107,9 +109,51 @@ export default function StoreManager () {
     }
   }
 
-  const clickCreate = ({target:{name}}) => {
+  const clickShowCreate = ({target:{name}}) => {
     name === 'createProduct' ? setShowCreateProduct(!showCreateProduct): setShowCreateSale(!showCreateSale)
   }
+
+  const clickCreate  = async ({target:{name}}) => {
+    if(name === "clickCreateProduduct") {
+      const infoToCreate = { name: updateInput['createNameProduct']}
+      try {
+       await api.post('/products', infoToCreate);
+       setError(null);
+       window.alert('Produto foi criado com sucesso')
+    } catch(error) {
+      console.error(error);
+      setError(JSON.parse(error.request.responseText).message)
+    } finally {
+      setShowCreateProduct(false);
+      return
+    }
+
+  } 
+
+  if(name === 'clickCreateSale') {
+    try {
+      await api.post('/sales', createOrderList);
+      
+      setError(null);
+      window.alert('Venda foi criado com sucesso')
+    } catch(error) {
+      console.log(error);
+      setError(JSON.parse(error.request.responseText).message)
+    } finally {
+      setShowCreateSale(false);
+      setCreateOrderList([]);
+    }
+  }
+
+
+
+}
+
+const clickAddProduct = () => {
+  const product = {productId:Number(updateInput['inputIdProduct']), quantity: Number(updateInput['inputQuantity'])}
+  setCreateOrderList(list => [...list, product]);
+  setUpdateInput({ inputIdProduct : '', inputQuantity : '' });
+}
 
   const handleDelete = async ({target:{id}}) => {
     if(window.confirm('Ao cliclar em OK esse item será excluído do Bando de Dados')) {
@@ -145,12 +189,17 @@ export default function StoreManager () {
         <button
         type="button"
         name="createProduct"
-        onClick={ clickCreate }>
+        onClick={ clickShowCreate}>
           Adicionar Produto
         </button>
-        {showCreateProduct && <CreateProduct />}
+        {showCreateProduct && <CreateProduct 
+        handleChange={ handleChangeUpdate} 
+        newName={updateInput}
+        clickCreate={clickCreate}
+        clickShowCreate={clickShowCreate} 
+        />}
 
-        {Error && <h2>{Error}</h2>}
+        {Error && <h3>{Error}</h3>}
 
         { Error || productsList.map((product, index) => (
         <ProductCard
@@ -182,10 +231,16 @@ export default function StoreManager () {
         <button
         type="button"
         name="createSale"
-        onClick={ clickCreate }>
+        onClick={ clickShowCreate }>
           Adicionar Venda
         </button>
-        {showCreateSale && <CreateSale />}
+        {showCreateSale && <CreateSale 
+        updateInput={updateInput}
+        handleChangeUpdate={handleChangeUpdate}
+        clickAddProduct={clickAddProduct}
+        preview={ createOrderList }
+        clickCreate={clickCreate}
+        />}
 
         {!Error && salesList.map((sale, index) => (
           <SaleCard

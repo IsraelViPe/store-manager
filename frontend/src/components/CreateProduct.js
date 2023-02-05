@@ -1,16 +1,18 @@
-export default function CreateProduct ({createProduct, handleNewProduct}) {
+export default function CreateProduct ({clickCreate, handleChange, newName}) {
     return (
         <form>
             <label for="createProduct">
                 {'Nome do produto'}
                 <input
                 type="text"
-                name="name"
-                onChange={handleNewProduct}/>
+                name="createNameProduct"
+                value={newName['createNameProduct']}
+                onChange={handleChange}/>
             </label>
             <button
             type="button"
-            onClick={createProduct}>
+            name="clickCreateProduduct"
+            onClick={clickCreate}>
                 Criar
             </button>
         </form>
