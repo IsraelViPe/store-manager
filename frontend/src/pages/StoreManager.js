@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from './store_manager.module.css';
 import Loading from "../components/Loading";
 import ProductCard from "../components/ProductCard";
 import SaleCard from "../components/SaleCard";
@@ -92,7 +93,6 @@ export default function StoreManager () {
       }
     }
 
-
     if( name === 'updateSale') {
       const infoToUpdate = salesList[0].products.map(({productId}) => ({
         productId : Number(updateInput[`${productId}-product`]), quantity : Number(updateInput[`${productId}-quantity`])}))
@@ -133,7 +133,6 @@ export default function StoreManager () {
   if(name === 'clickCreateSale') {
     try {
       await api.post('/sales', createOrderList);
-      
       setError(null);
       window.alert('Venda foi criado com sucesso')
     } catch(error) {
@@ -144,9 +143,6 @@ export default function StoreManager () {
       setCreateOrderList([]);
     }
   }
-
-
-
 }
 
 const clickAddProduct = () => {
@@ -164,15 +160,16 @@ const clickAddProduct = () => {
         setError(JSON.parse(error.request.responseText).message)
       } finally {
         setIsLoading(false);
+        setProductsList([])
+        setSalesList([])
         return
       }
     }
   }
-
-  
+  console.log(styles.container)
 
   return (
-    <main>
+    <main className={styles.container}>
       {isLoading && <Loading />}
       <h1>Store Manager</h1>
       <section>

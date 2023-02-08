@@ -1,0 +1,5 @@
+:root {
+    --primary: var(--white);
+    --secondary: #1a1b1c;
+    --accent: #2fc182;
+} 
