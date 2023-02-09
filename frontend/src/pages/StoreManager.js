@@ -166,94 +166,87 @@ const clickAddProduct = () => {
       }
     }
   }
-  console.log(styles.container)
+
 
   return (
     <main className={styles.container}>
       {isLoading && <Loading />}
       <h1>Store Manager</h1>
-      <section>
-        <h2>Produtos</h2>
-
-        <SearchForm
-        handleChange={ handleChange }
-        InputValue={InputProduct}
-        onClick={getProducts}
-        InputType={'text'}
-        placeHolder={'Nome ou código de produto'}
-        name={'InputProduct'} />
-
-        <button
-        type="button"
-        name="createProduct"
-        onClick={ clickShowCreate}>
-          Adicionar Produto
-        </button>
-        {showCreateProduct && <CreateProduct 
-        handleChange={ handleChangeUpdate} 
-        newName={updateInput}
-        clickCreate={clickCreate}
-        clickShowCreate={clickShowCreate} 
-        />}
-
-        {Error && <h3>{Error}</h3>}
-
-        { Error || productsList.map((product, index) => (
-        <ProductCard
-        key={ index }
-        name={product.name}
-        id={product.id}
-        idDelete={`/products/${product.id}`}
-        updateProduct={ clickUpdate }
-        deleteProduct={handleDelete}
-        handleChangeUpdate={ handleChangeUpdate }
-        updateNameProduct={updateInput}
-        showUpdateMode={ showUpdateProduct } 
-        showDelete={productsList.length === 1}
-        />
-        ))}
-
-      </section>
-      <section>
-        <h2>Vendas</h2>
-
-        <SearchForm
-        handleChange={ handleChange }
-        InputValue={saleId}
-        onClick={getSales }
-        InputType={'number'}
-        placeHolder={'informe o codigó da venda'}
-        name={'saleId'} />
-
-        <button
-        type="button"
-        name="createSale"
-        onClick={ clickShowCreate }>
-          Adicionar Venda
-        </button>
-        {showCreateSale && <CreateSale 
-        updateInput={updateInput}
-        handleChangeUpdate={handleChangeUpdate}
-        clickAddProduct={clickAddProduct}
-        preview={ createOrderList }
-        clickCreate={clickCreate}
-        />}
-
-        {!Error && salesList.map((sale, index) => (
-          <SaleCard
-          key={index}
-          sale={sale}
-          idDelete={`/sales/${saleId}`}
-          idUpdate={saleId}
-          updateSale={ clickUpdate }
-          deleteSale={handleDelete}
-          showUpdate={ showUpdateSale}
-          updateInputSale={ updateInput }
-          handleChangeUpdate={handleChangeUpdate}
-          clickUpdate={clickUpdate}
+      <section className={styles.section__container}>
+        <section>
+          <h2>Produtos</h2>
+          <SearchForm
+          handleChange={ handleChange }
+          InputValue={InputProduct}
+          onClick={getProducts}
+          InputType={'text'}
+          placeHolder={'Nome ou código de produto'}
+          name={'InputProduct'} />
+          <button
+          type="button"
+          name="createProduct"
+          onClick={ clickShowCreate}>
+            Adicionar Produto
+          </button>
+          {showCreateProduct && <CreateProduct
+          handleChange={ handleChangeUpdate}
+          newName={updateInput}
+          clickCreate={clickCreate}
+          clickShowCreate={clickShowCreate}
+          />}
+          {Error && <h3>{Error}</h3>}
+          { Error || productsList.map((product, index) => (
+          <ProductCard
+          key={ index }
+          name={product.name}
+          id={product.id}
+          idDelete={`/products/${product.id}`}
+          updateProduct={ clickUpdate }
+          deleteProduct={handleDelete}
+          handleChangeUpdate={ handleChangeUpdate }
+          updateNameProduct={updateInput}
+          showUpdateMode={ showUpdateProduct }
+          showDelete={productsList.length === 1}
           />
-        ))}
-
+          ))}
+        </section>
+        <section>
+          <h2>Vendas</h2>
+          <SearchForm
+          handleChange={ handleChange }
+          InputValue={saleId}
+          onClick={getSales }
+          InputType={'number'}
+          placeHolder={'informe o codigó da venda'}
+          name={'saleId'} />
+          <button
+          type="button"
+          name="createSale"
+          onClick={ clickShowCreate }>
+            Adicionar Venda
+          </button>
+          {showCreateSale && <CreateSale
+          updateInput={updateInput}
+          handleChangeUpdate={handleChangeUpdate}
+          clickAddProduct={clickAddProduct}
+          preview={ createOrderList }
+          clickCreate={clickCreate}
+          />}
+          {!Error && salesList.map((sale, index) => (
+            <SaleCard
+            key={index}
+            sale={sale}
+            idDelete={`/sales/${saleId}`}
+            idUpdate={saleId}
+            updateSale={ clickUpdate }
+            deleteSale={handleDelete}
+            showUpdate={ showUpdateSale}
+            updateInputSale={ updateInput }
+            handleChangeUpdate={handleChangeUpdate}
+            clickUpdate={clickUpdate}
+            />
+          ))}
+        </section>
       </section>
     </main>
   )

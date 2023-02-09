@@ -1,9 +1,9 @@
-
+import styles from './css/search_form.module.css';
 
 export default function SearchForm ({handleChange, InputValue, onClick, inputType, placeHolder, name}) {
   return (
-    <form>
-      <label>
+    <form className={styles.form__container}>
+      
         <input
         type={inputType}
         name={name}
@@ -11,8 +11,8 @@ export default function SearchForm ({handleChange, InputValue, onClick, inputTyp
         value={InputValue}
         onChange={ handleChange }
         />
-      </label>
       <button
+      className={styles.btn }
       type="button"
       onClick={ onClick }>
         Buscar
